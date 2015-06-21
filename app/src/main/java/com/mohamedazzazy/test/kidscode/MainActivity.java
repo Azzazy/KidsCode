@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @SuppressLint("SimpleDateFormat")
-    public ArrayList<Kid> readDatabase() {
+    public ArrayList<Kid> readDatabase() { //I think it's working good.
         File f2 = new File(getStorageDir(DIR_NAME), "MainDB.txt");
         StringBuilder text = new StringBuilder();
         try {
