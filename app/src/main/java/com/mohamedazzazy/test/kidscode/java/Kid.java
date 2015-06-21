@@ -9,11 +9,11 @@ import java.util.ArrayList;
  */
 public class Kid {
     String name;
-    int code;
+    String code;
     String mobile;
     ArrayList<Session> sessions;
 
-    public Kid(String name, int code, String mobile, ArrayList<Session> sessions) {
+    public Kid(String name, String code, String mobile, ArrayList<Session> sessions) {
         this.name = name;
         this.code = code;
         this.mobile = mobile;

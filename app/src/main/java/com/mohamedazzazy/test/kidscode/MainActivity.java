@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dec();
+        readDatabase();
     }
 
     public void dec() {
@@ -89,20 +90,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @SuppressLint("SimpleDateFormat")
-    public ArrayList<Kid> readDatabase() { //I think it's working good.
+    public ArrayList<Kid> readDatabase() {
         File f2 = new File(getStorageDir(DIR_NAME), "MainDB.txt");
         StringBuilder text = new StringBuilder();
         try {
-
-
-
-
-
-
-
-
-
-
             BufferedReader br = new BufferedReader(new FileReader(f2));
             String line;
             while ((line = br.readLine()) != null) {
@@ -114,13 +105,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         String data;
-        String name = null,mobile = null;
-        int code = 0 ,coin = 0;
+        String name = null, mobile = null;
+        int coin = 0;
+        String code = "";
         ArrayList<Kid> kids = null;
-        ArrayList<Session> sessions = new ArrayList<>();
+        ArrayList<Session> sessions = null;
         Date date = null;
         data = text.toString();
+        long stime = System.currentTimeMillis();
 
+        ////////////////////// TEST real number of dataBase :
+        // (1000 kid with 15 sessions) takes around 5 seconds to calculate it.
+        // (500 kid with 45 sessions) takes around 6 seconds to calculate it.
+        // (1000 kid with 60 sessions) takes around 17 seconds to calculate it.
+        // (500 kid with 15 sessions) takes around 2 seconds to calculate it.
+        String Ss = "SS%SC10%SD02032014";
+        data = "#@CC1141512613254@NNSherif Ahmed Ali Mohamed@MM01091178126@ATSS%SC6%SD15062015SS%SC8%SD18072014";
+        data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
+       // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
+       // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
+       // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
+        data = data + data + data + data + data + data + data + data + data + data;
+        data = data + data + data + data + data + data + data + data + data + data;
+        data = data + data + data + data + data ;
+        ///////////////////////////////////////////////////////////
+
+        /*      ////////////////DATA FORMAT \\\\\\\\\\\\\\\\\
+           "#@CC<his code>@NN<Name Of Kid>@MM<His Mobile>@ATSS%SC<coin taken>%SD<date ddmmyyyy>SS%SC<coin taken>%SD<date ddmmyyyy>"
+        */
         if (data.length() > 1) {
             kids = new ArrayList<>();
             for (String kid : data.split("#")) {
@@ -132,12 +144,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     name = kidTerm.substring(2);
                                     break;
                                 case "CC":
-                                    code = Integer.parseInt(kidTerm.substring(2));
+                                    code = kidTerm.substring(2);
                                     break;
                                 case "MM":
                                     mobile = kidTerm.substring(2);
                                     break;
                                 case "AT":
+                                    sessions = new ArrayList<>();
                                     for (String kidSession : kidTerm.substring(2).split("SS")) {
                                         if (kidSession.length() > 1) {
                                             for (String sessionTerm : kidSession.split("%")) {
@@ -148,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                             break;
                                                         case "SD":
                                                             try {
-                                                                date = new SimpleDateFormat("dd-MM-yyyy").parse(sessionTerm.substring(2));
+                                                                date = new SimpleDateFormat("ddMMyyyy").parse(sessionTerm.substring(2));
                                                             } catch (ParseException e) {
                                                                 e.printStackTrace();
                                                             }
@@ -166,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
+        stime = System.currentTimeMillis() - stime;
 
         return kids;
     }
@@ -192,7 +206,5 @@ System.out.println(newstring); // 2011-01-18
 
      */
 
-     /*      ///DATA FORMAT
-        "#@NN<Name Of Kid>@CC<his code>@MM<His Mobile>@ATSS%SC<coin taken>%SD<date dd-mm-yyyy>SS%SC<coin taken>%SD<date dd-mm-yyyy>"
-        */
+
 }
