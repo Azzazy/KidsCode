@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dec();
-        readDatabase();
+        readFullDatabase();
     }
 
     public void dec() {
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 next = new Intent(getApplicationContext(), AttActivity.class);
                 break;
             case R.id.bGet:
-                readDatabase();
+                readFullDatabase();
                 break;
         }
         startActivity(next);
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @SuppressLint("SimpleDateFormat")
-    public ArrayList<Kid> readDatabase() {
+    public ArrayList<Kid> readFullDatabase() {      /// only usefull with statistics, not with Att.
         File f2 = new File(getStorageDir(DIR_NAME), "MainDB.txt");
         StringBuilder text = new StringBuilder();
         try {
@@ -112,19 +112,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayList<Session> sessions = null;
         Date date = null;
         data = text.toString();
-        long stime = System.currentTimeMillis();
-
+        
         ////////////////////// TEST real number of dataBase :
         // (1000 kid with 15 sessions) takes around 5 seconds to calculate it.
         // (500 kid with 45 sessions) takes around 6 seconds to calculate it.
         // (1000 kid with 60 sessions) takes around 17 seconds to calculate it.
         // (500 kid with 15 sessions) takes around 2 seconds to calculate it.
+        //////////// Time measuring
+        long stime = System.currentTimeMillis();
         String Ss = "SS%SC10%SD02032014";
         data = "#@CC1141512613254@NNSherif Ahmed Ali Mohamed@MM01091178126@ATSS%SC6%SD15062015SS%SC8%SD18072014";
         data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
-       // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
-       // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
-       // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
+        // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
+        // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
+        // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
         data = data + data + data + data + data + data + data + data + data + data;
         data = data + data + data + data + data + data + data + data + data + data;
         data = data + data + data + data + data ;
@@ -179,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
+        //////////// Time measuring
         stime = System.currentTimeMillis() - stime;
 
         return kids;
