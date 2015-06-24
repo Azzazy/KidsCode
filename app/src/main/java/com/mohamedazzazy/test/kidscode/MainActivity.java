@@ -27,9 +27,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    String data;
     TextView display;
     Button bstat, bstart, bget;
     Intent next;
+    ArrayList<Kid> fullList, attList;
+    char ageChar; /// The age of kids you'r looking for [O,L,M]
     static final String LOG_TAG = MainActivity.class.getSimpleName();
     static final String DIR_NAME = "KidsCode";
 
@@ -89,105 +93,146 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
+    public void getAttDataBase() {
+        String name = null, mobile = null, code = null;
+        readTheFile();
+
+        /*
+         ////////////////////// TEST real number of dataBase :
+         // (400 kid) takes around ?? seconds to calculate it.
+         // (800 kid) takes around ?? seconds to calculate it.
+         // (1200 kid) takes around ?? seconds to calculate it.
+         //////////// Time measuring
+         long stime = System.currentTimeMillis();
+         data = "#O@CC1141512613254@NNSherif Ahmed Ali Mohamed@MM01091178126@ATSS%SC6%SD15062015SS%SC8%SD18072014";
+         data = data + data + data + data + data + data + data + data + data + data;
+         data = data + data + data + data + data + data + data + data + data + data;
+         data = data + data + data + data + data ;
+         ///////////////////////////////////////////////////////////
+         */
+        if (data.length() > 0) {
+            attList = new ArrayList<>();
+            data = data.substring(1);
+            for (String kid : data.split("#")) {
+                if (kid.charAt(0) == ageChar) {
+                    kid = kid.substring(2);
+                    for (String kidTerm : kid.split("@")) {
+                        switch (kidTerm.substring(0, 2)) {
+                            case "NN":
+                                name = kidTerm.substring(2);
+                                break;
+                            case "CC":
+                                code = kidTerm.substring(2);
+                                break;
+                            case "MM":
+                                mobile = kidTerm.substring(2);
+                        }
+                    }
+                    attList.add(new Kid(name, code, mobile));
+                }
+            }
+        }
+
+         //////////// Time measuring
+//         stime = System.currentTimeMillis() - stime;
+    }
+
     @SuppressLint("SimpleDateFormat")
-    public ArrayList<Kid> readFullDatabase() {      /// only usefull with statistics, not with Att.
-        File f2 = new File(getStorageDir(DIR_NAME), "MainDB.txt");
-        StringBuilder text = new StringBuilder();
+    public void readFullDatabase() {      /// only usefull with statistics, not with Att.
+        String name = null, mobile = null, code = null;
+        int coin = 0;
+        Date date = null;
+        ArrayList<Session> sessions = null;
+        readTheFile();
+
+        /*
+         ////////////////////// TEST real number of dataBase :
+         // (1000 kid with 15 sessions) takes around 5 seconds to calculate it.
+         // (500 kid with 45 sessions) takes around 6 seconds to calculate it.
+         // (1000 kid with 60 sessions) takes around 17 seconds to calculate it.
+         // (500 kid with 15 sessions) takes around 2 seconds to calculate it.
+         //////////// Time measuring
+         long stime = System.currentTimeMillis();
+         String Ss = "SS%SC10%SD02032014";
+         data = "#O@CC1141512613254@NNSherif Ahmed Ali Mohamed@MM01091178126@ATSS%SC6%SD15062015SS%SC8%SD18072014";
+         data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
+         // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
+         // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
+         // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
+         data = data + data + data + data + data + data + data + data + data + data;
+         data = data + data + data + data + data + data + data + data + data + data;
+         data = data + data + data + data + data ;
+         ///////////////////////////////////////////////////////////
+         */
+        /*      ////////////////DATA FORMAT \\\\\\\\\\\\\\\\\
+         "#<O,M,L>@CC<his code>@NN<Name Of Kid>@MM<His Mobile>@ATSS%SC<coin taken>%SD<date ddmmyyyy>SS%SC<coin taken>%SD<date ddmmyyyy>"
+         */
+        if (data.length() > 1) {
+            fullList = new ArrayList<>();
+            data = data.substring(1);
+            for (String kid : data.split("#")) {
+                ageChar = kid.charAt(0);
+                kid = kid.substring(2);
+                for (String kidTerm : kid.split("@")) {
+                    switch (kidTerm.substring(0, 2)) {
+                        case "NN":
+                            name = kidTerm.substring(2);
+                            break;
+                        case "CC":
+                            code = kidTerm.substring(2);
+                            break;
+                        case "MM":
+                            mobile = kidTerm.substring(2);
+                            break;
+                        case "AT":
+                            sessions = new ArrayList<>();
+                            kidTerm = kidTerm.substring(2);
+                            for (String kidSession : kidTerm.substring(2).split("SS")) {
+                                kidSession = kidSession.substring(1);
+                                for (String sessionTerm : kidSession.split("%")) {
+                                    switch (sessionTerm.substring(0, 2)) {
+                                        case "SC":
+                                            coin = Integer.parseInt(sessionTerm.substring(2));
+                                            break;
+                                        case "SD":
+                                            try {
+                                                date = new SimpleDateFormat("ddMMyyyy").parse(sessionTerm.substring(2));
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                            }
+                                    }
+                                }
+                                sessions.add(new Session(coin, date));
+                            }
+                    }
+                }
+                fullList.add(new Kid(name, code, mobile, sessions, ageChar));
+            }
+        }
+        /*
+         //////////// Time measuring
+         stime = System.currentTimeMillis() - stime;
+         */
+    }
+
+    public void readTheFile() {
+        File thefile = new File(getStorageDir(DIR_NAME), "MainDB.txt");
+        StringBuilder rawText = new StringBuilder();
         try {
-            BufferedReader br = new BufferedReader(new FileReader(f2));
+            BufferedReader br = new BufferedReader(new FileReader(thefile));
             String line;
             while ((line = br.readLine()) != null) {
-                text.append(line);
+                rawText.append(line);
             }
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        String data;
-        String name = null, mobile = null;
-        int coin = 0;
-        String code = "";
-        ArrayList<Kid> kids = null;
-        ArrayList<Session> sessions = null;
-        Date date = null;
-        data = text.toString();
-        
-        ////////////////////// TEST real number of dataBase :
-        // (1000 kid with 15 sessions) takes around 5 seconds to calculate it.
-        // (500 kid with 45 sessions) takes around 6 seconds to calculate it.
-        // (1000 kid with 60 sessions) takes around 17 seconds to calculate it.
-        // (500 kid with 15 sessions) takes around 2 seconds to calculate it.
-        //////////// Time measuring
-        long stime = System.currentTimeMillis();
-        String Ss = "SS%SC10%SD02032014";
-        data = "#@CC1141512613254@NNSherif Ahmed Ali Mohamed@MM01091178126@ATSS%SC6%SD15062015SS%SC8%SD18072014";
-        data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
-        // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
-        // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
-        // data += Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss + Ss;
-        data = data + data + data + data + data + data + data + data + data + data;
-        data = data + data + data + data + data + data + data + data + data + data;
-        data = data + data + data + data + data ;
-        ///////////////////////////////////////////////////////////
-
-        /*      ////////////////DATA FORMAT \\\\\\\\\\\\\\\\\
-           "#@CC<his code>@NN<Name Of Kid>@MM<His Mobile>@ATSS%SC<coin taken>%SD<date ddmmyyyy>SS%SC<coin taken>%SD<date ddmmyyyy>"
-        */
-        if (data.length() > 1) {
-            kids = new ArrayList<>();
-            for (String kid : data.split("#")) {
-                if (kid.length() > 1) {
-                    for (String kidTerm : kid.split("@")) {
-                        if (kidTerm.length() > 1) {
-                            switch (kidTerm.substring(0, 2)) {
-                                case "NN":
-                                    name = kidTerm.substring(2);
-                                    break;
-                                case "CC":
-                                    code = kidTerm.substring(2);
-                                    break;
-                                case "MM":
-                                    mobile = kidTerm.substring(2);
-                                    break;
-                                case "AT":
-                                    sessions = new ArrayList<>();
-                                    for (String kidSession : kidTerm.substring(2).split("SS")) {
-                                        if (kidSession.length() > 1) {
-                                            for (String sessionTerm : kidSession.split("%")) {
-                                                if (sessionTerm.length() > 1) {
-                                                    switch (sessionTerm.substring(0, 2)) {
-                                                        case "SC":
-                                                            coin = Integer.parseInt(sessionTerm.substring(2));
-                                                            break;
-                                                        case "SD":
-                                                            try {
-                                                                date = new SimpleDateFormat("ddMMyyyy").parse(sessionTerm.substring(2));
-                                                            } catch (ParseException e) {
-                                                                e.printStackTrace();
-                                                            }
-                                                    }
-                                                }
-                                            }
-                                            sessions.add(new Session(coin, date));
-
-                                        }
-                                    }
-                            }
-                        }
-                    }
-                    kids.add(new Kid(name, code, mobile, sessions));
-                }
-            }
-        }
-        //////////// Time measuring
-        stime = System.currentTimeMillis() - stime;
-
-        return kids;
+        data = rawText.toString();
     }
 
     public File getStorageDir(String dirName) {
-        // Get the directory for the user's public pictures directory.
+        // Get the directory for the user's public downloads directory.
         File file = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS), dirName);
         if (!file.mkdirs()) {
@@ -197,16 +242,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /* DATE
-    Use SimpleDateFormat#parse() to parse a String in a certain pattern into a Date.
+     Use SimpleDateFormat#parse() to parse a String in a certain pattern into a Date.
 
-String oldstring = "2011-01-18 00:00:00.0";
-Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(oldstring);
-Use SimpleDateFormat#format() to format a Date into a String in a certain pattern.
+     String oldstring = "2011-01-18 00:00:00.0";
+     Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(oldstring);
+     Use SimpleDateFormat#format() to format a Date into a String in a certain pattern.
 
-String newstring = new SimpleDateFormat("yyyy-MM-dd").format(date);
-System.out.println(newstring); // 2011-01-18
+     String newstring = new SimpleDateFormat("yyyy-MM-dd").format(date);
+     System.out.println(newstring); // 2011-01-18
 
      */
-
-
 }
