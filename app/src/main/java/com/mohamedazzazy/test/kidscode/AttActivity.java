@@ -6,10 +6,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.content.Intent;
 
 public class AttActivity extends AppCompatActivity implements View.OnClickListener {
-    Button norm;
-    Button qr;
+
+    Button norm, qr;
+    Intent next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,16 +19,19 @@ public class AttActivity extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_att);
         dec();
     }
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bNormal:
-
+                next = new Intent(getApplicationContext(), NormalAttActivity.class);
                 break;
             case R.id.bQr:
-
+                next = new Intent(getApplicationContext(), NormalAttActivity.class);
                 break;
         }
+        startActivity(next);
     }
+
     public void dec() {
         norm = (Button) findViewById(R.id.bNormal);
         qr = (Button) findViewById(R.id.bQr);
@@ -34,6 +39,7 @@ public class AttActivity extends AppCompatActivity implements View.OnClickListen
         qr.setOnClickListener(this);
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
