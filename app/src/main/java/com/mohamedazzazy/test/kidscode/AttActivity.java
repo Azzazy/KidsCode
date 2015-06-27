@@ -1,17 +1,18 @@
 package com.mohamedazzazy.test.kidscode;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.content.Intent;
 
 public class AttActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button norm, qr;
+    Button norm, qr, old, meddle, little;
     Intent next;
+    char ageChar = 'O';
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,19 +25,43 @@ public class AttActivity extends AppCompatActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.bNormal:
                 next = new Intent(getApplicationContext(), NormalAttActivity.class);
+                Bundle extras = getIntent().getExtras();
+                char c = 'O';
+                if (extras != null) {
+                    c = extras.getChar("AGE");
+                }
+                next.putExtra("AGE", ageChar);
+                startActivity(next);
                 break;
             case R.id.bQr:
                 next = new Intent(getApplicationContext(), NormalAttActivity.class);
+                startActivity(next);
+                break;
+            case R.id.bOld:
+                ageChar = 'O';
+                break;
+            case R.id.bMeddle:
+                ageChar = 'M';
+                break;
+            case R.id.bLittle:
+                ageChar = 'L';
                 break;
         }
-        startActivity(next);
+
+
     }
 
     public void dec() {
         norm = (Button) findViewById(R.id.bNormal);
         qr = (Button) findViewById(R.id.bQr);
+        old = (Button) findViewById(R.id.bOld);
+        meddle = (Button) findViewById(R.id.bMeddle);
+        little = (Button) findViewById(R.id.bLittle);
         norm.setOnClickListener(this);
         qr.setOnClickListener(this);
+        old.setOnClickListener(this);
+        meddle.setOnClickListener(this);
+        little.setOnClickListener(this);
 
     }
 

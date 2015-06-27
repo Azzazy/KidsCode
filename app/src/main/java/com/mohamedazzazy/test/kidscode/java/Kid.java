@@ -1,7 +1,5 @@
 package com.mohamedazzazy.test.kidscode.java;
 
-import com.mohamedazzazy.test.kidscode.java.Session;
-
 import java.util.ArrayList;
 
 /**
@@ -9,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Kid {
 
-    String name;
+    public String name;
     String code;
     String mobile;
     char ageGroup;
@@ -38,4 +36,6 @@ public class Kid {
                 return false;
         }
     }
+
+
 }
