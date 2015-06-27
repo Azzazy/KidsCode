@@ -10,7 +10,6 @@ import android.widget.Button;
 
 public class AttActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button norm, qr, old, meddle, little;
     Intent next;
     char ageChar = 'O';
 
@@ -25,11 +24,6 @@ public class AttActivity extends AppCompatActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.bNormal:
                 next = new Intent(getApplicationContext(), NormalAttActivity.class);
-                Bundle extras = getIntent().getExtras();
-                char c = 'O';
-                if (extras != null) {
-                    c = extras.getChar("AGE");
-                }
                 next.putExtra("AGE", ageChar);
                 startActivity(next);
                 break;
@@ -52,17 +46,11 @@ public class AttActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     public void dec() {
-        norm = (Button) findViewById(R.id.bNormal);
-        qr = (Button) findViewById(R.id.bQr);
-        old = (Button) findViewById(R.id.bOld);
-        meddle = (Button) findViewById(R.id.bMeddle);
-        little = (Button) findViewById(R.id.bLittle);
-        norm.setOnClickListener(this);
-        qr.setOnClickListener(this);
-        old.setOnClickListener(this);
-        meddle.setOnClickListener(this);
-        little.setOnClickListener(this);
-
+        findViewById(R.id.bNormal).setOnClickListener(this);
+        findViewById(R.id.bQr).setOnClickListener(this);
+        findViewById(R.id.bOld).setOnClickListener(this);
+        findViewById(R.id.bMeddle).setOnClickListener(this);
+        findViewById(R.id.bLittle).setOnClickListener(this);
     }
 
     @Override

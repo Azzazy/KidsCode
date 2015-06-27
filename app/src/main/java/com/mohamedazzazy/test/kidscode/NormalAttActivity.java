@@ -12,11 +12,8 @@ import android.widget.TextView;
 import com.mohamedazzazy.test.kidscode.java.DB;
 
 public class NormalAttActivity extends AppCompatActivity implements View.OnClickListener {
-    //////// stopped here last time 27/6/2015
     TextView display;
-    Button byes, bno, bstop;
     int counter;
-    int size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +25,15 @@ public class NormalAttActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void dec() {
-        byes = (Button) findViewById(R.id.bYes);
-        bno = (Button) findViewById(R.id.bNo);
-        bstop = (Button) findViewById(R.id.bStop);
         display = (TextView) findViewById(R.id.tvName);
-        byes.setOnClickListener(this);
-        bno.setOnClickListener(this);
-        bstop.setOnClickListener(this);
+        findViewById(R.id.bStop).setOnClickListener(this);
+        findViewById(R.id.bNo).setOnClickListener(this);
+        findViewById(R.id.bYes).setOnClickListener(this);
         counter = 0;
-        size = DB.attList.size();
     }
 
     public char getAgeChar() {
-        Bundle extras = getIntent().getExtras();
-        return extras.getChar("AGE");
+        return getIntent().getExtras().getChar("AGE");
     }
 
     public void displayNext() {

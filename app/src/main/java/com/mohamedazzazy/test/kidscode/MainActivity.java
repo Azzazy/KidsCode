@@ -10,24 +10,18 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button bstat, bstart;
     Intent next;
-    char ageChar; /// The age of kids you'r looking for [O,L,M]
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dec();
-        ageChar = 'O';
     }
 
     public void dec() {
-        bstat = (Button) findViewById(R.id.bStat);
-        bstart = (Button) findViewById(R.id.bStart);
-        bstart.setOnClickListener(this);
-        bstat.setOnClickListener(this);
-
+        findViewById(R.id.bStat).setOnClickListener(this);
+        findViewById(R.id.bStart).setOnClickListener(this);
     }
 
     @Override
@@ -38,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.bStart:
                 next = new Intent(getApplicationContext(), AttActivity.class);
-                next.putExtra("AGE", ageChar);
                 break;
         }
         startActivity(next);

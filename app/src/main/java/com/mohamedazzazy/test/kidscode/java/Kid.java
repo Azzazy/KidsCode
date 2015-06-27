@@ -28,9 +28,12 @@ public class Kid {
         this.code = code;
         this.mobile = mobile;
     }
-    static public boolean isActive(char c){
-        switch(c){
-            case 'O':case 'M':case 'L':
+
+    static public boolean isActive(char c) {
+        switch (c) {
+            case 'O':
+            case 'M':
+            case 'L':
                 return true;
             default:
                 return false;

@@ -37,7 +37,8 @@
         </activity>
         <activity
             android:name=".CoinsActivity"
-            android:label="@string/title_activity_coins" >
+            android:label="@string/title_activity_coins"
+            android:noHistory="true" >
         </activity>
         <activity
             android:name=".NormalAttActivity"

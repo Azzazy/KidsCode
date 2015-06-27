@@ -1,31 +1,48 @@
 package com.mohamedazzazy.test.kidscode;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
 import com.mohamedazzazy.test.kidscode.java.Kid;
 
-public class ActionsActivity extends AppCompatActivity {
+public class ActionsActivity extends AppCompatActivity implements View.OnClickListener {
+    //////// stopped here last time 27/6/2015
+
     TextView display;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actions);
         dec();
-        String s = "";
-        for (Kid k : DB.attList) {
-            s += k.name + '\n';
-        }
-        display.setText(s);
+
     }
 
     public void dec() {
         display = (TextView) findViewById(R.id.tvAction);
+        findViewById(R.id.bCoin).setOnClickListener(this);
+        findViewById(R.id.bEnd).setOnClickListener(this);
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.bCoin:
+                Intent i = new Intent(getApplicationContext(), CoinsActivity.class);
+                startActivity(i);
+                break;
+            case R.id.bEnd:
+
+                break;
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

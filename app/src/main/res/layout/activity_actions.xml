@@ -7,13 +7,24 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.mohamedazzazy.test.kidscode.ActionsActivity">
 
-    <TextView
-        android:id="@+id/tvAction"
+    <Button
+        android:id="@+id/bCoin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:text="Coins"
+        android:textSize="30dp"
+        android:layout_marginTop="89dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="156dp"
-        android:text="@string/hello_world" />
+        android:layout_centerHorizontal="true" />
 
+    <Button
+        android:id="@+id/bEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Session"
+        android:textSize="30dp"
+        android:layout_marginBottom="120dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
