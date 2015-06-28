@@ -1,8 +1,12 @@
 package com.mohamedazzazy.test.kidscode.java;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+
+import com.mohamedazzazy.test.kidscode.ActionsActivity;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,6 +30,16 @@ public class DB {
     /*      ////////////////DATA FORMAT \\\\\\\\\\\\\\\\\
          "#<O,M,L>@CC<his code>@NN<Name Of Kid>@MM<His Mobile>@ATSS%SC<coin taken>%SD<date ddmmyyyy>SS%SC<coin taken>%SD<date ddmmyyyy>"
     */
+
+    static public ArrayAdapter<Kid> getAdapterOfAtt(Activity a) {
+        Kid k[] = new Kid[DB.attList.size()];
+        int i = 0;
+        for (Kid x : DB.attList)
+            k[i++] = x;
+
+        return new ArrayAdapter<Kid>(a,
+                android.R.layout.simple_list_item_1, k);
+    }
 
     static public void getAttDataBase(char ageChar) {
         String name = null, mobile = null, code = null;

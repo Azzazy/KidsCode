@@ -1,6 +1,7 @@
 package com.mohamedazzazy.test.kidscode.java;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Mohamed Azzazy on 06/06/2015.
@@ -27,6 +28,11 @@ public class Kid {
         this.name = name;
         this.code = code;
         this.mobile = mobile;
+        this.sessions = new ArrayList<>();
+        this.sessions.add(new Session(0, new Date()));
+    }
+
+    public Kid() {
     }
 
     static public boolean isActive(char c) {
@@ -40,5 +46,8 @@ public class Kid {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return this.name + "   " + this.sessions.get(0).coin;
+    }
 }
