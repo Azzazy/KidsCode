@@ -6,15 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-
-import com.mohamedazzazy.test.kidscode.java.DB;
-import com.mohamedazzazy.test.kidscode.java.Kid;
 
 public class ActionsActivity extends AppCompatActivity implements View.OnClickListener {
     //////// stopped here last time 27/6/2015
 
-    TextView display;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +20,6 @@ public class ActionsActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void dec() {
-        display = (TextView) findViewById(R.id.tvAction);
         findViewById(R.id.bCoin).setOnClickListener(this);
         findViewById(R.id.bEnd).setOnClickListener(this);
     }
