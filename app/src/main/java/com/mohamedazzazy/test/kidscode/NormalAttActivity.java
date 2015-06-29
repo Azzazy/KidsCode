@@ -1,50 +1,80 @@
 package com.mohamedazzazy.test.kidscode;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.mohamedazzazy.test.kidscode.java.DB;
+
 public class NormalAttActivity extends AppCompatActivity implements View.OnClickListener {
- //////// stoped here last time 24/6/2015
     TextView display;
-    Button byes, bno,bstop;
+    int counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_normal_att);
+        DB.getAttDataBase(getAgeChar());
         dec();
+        displayNext();
     }
 
     public void dec() {
-        bstat = (Button) findViewById(R.id.bStat);
-        bstart = (Button) findViewById(R.id.bStart);
-        bget = (Button) findViewById(R.id.bGet);
-        bget.setOnClickListener(this);
-        bstart.setOnClickListener(this);
-        bstat.setOnClickListener(this);
+        display = (TextView) findViewById(R.id.tvName);
+        findViewById(R.id.bStop).setOnClickListener(this);
+        findViewById(R.id.bNo).setOnClickListener(this);
+        findViewById(R.id.bYes).setOnClickListener(this);
+        counter = 0;
+    }
 
+    public char getAgeChar() {
+        return getIntent().getExtras().getChar("AGE");
+    }
+
+    public void displayNext() {
+        if (counter < DB.attList.size())
+            display.setText((DB.attList.size() - counter) + "-" + DB.attList.get(counter++).name);
+        else toTheNext();
+    }
+
+    public void notHereAction() {
+        DB.attList.remove(--counter);
+        displayNext();
+    }
+
+    public void toTheNext() {
+        Intent i = new Intent(getApplicationContext(), ActionsActivity.class);
+        startActivity(i);
+    }
+
+    public void stopAtt() {
+        counter--;
+        while (DB.attList.size() > counter) {
+            DB.attList.remove(counter);
+        }
+        toTheNext();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bStat:
-                next = new Intent(getApplicationContext(), StatActivity.class);
+            case R.id.bYes:
+                displayNext();
                 break;
-            case R.id.bStart:
-                next = new Intent(getApplicationContext(), AttActivity.class);
+            case R.id.bNo:
+                notHereAction();
                 break;
-            case R.id.bGet:
-                readFullDatabase();
+            case R.id.bStop:
+                stopAtt();
                 break;
         }
-        startActivity(next);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

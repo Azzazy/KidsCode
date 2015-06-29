@@ -1,12 +1,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.mohamedazzazy.test.kidscode.ActionsActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/bCoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:text="Coins"
+        android:textSize="30dp"
+        android:layout_marginTop="89dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/bEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Session"
+        android:textSize="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/bShowCoin"
+        android:layout_alignStart="@+id/bShowCoin"
+        android:layout_marginBottom="89dp" />
+
+    <Button
+        android:id="@+id/bShowCoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Coins"
+        android:textSize="30dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 public class StatActivity extends AppCompatActivity implements View.OnClickListener {
-    Button coin, att, all;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +33,9 @@ public class StatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void dec() {
-        coin = (Button) findViewById(R.id.bCoin);
-        att = (Button) findViewById(R.id.bAtt);
-        all = (Button) findViewById(R.id.bAll);
-        coin.setOnClickListener(this);
-        att.setOnClickListener(this);
-        all.setOnClickListener(this);
-
+        findViewById(R.id.bCoin).setOnClickListener(this);
+        findViewById(R.id.bAtt).setOnClickListener(this);
+        findViewById(R.id.bAll).setOnClickListener(this);
     }
 
     @Override

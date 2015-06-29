@@ -1,17 +1,17 @@
 package com.mohamedazzazy.test.kidscode;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.content.Intent;
 
 public class AttActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button norm, qr;
     Intent next;
+    char ageChar = 'O';
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,20 +24,33 @@ public class AttActivity extends AppCompatActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.bNormal:
                 next = new Intent(getApplicationContext(), NormalAttActivity.class);
+                next.putExtra("AGE", ageChar);
+                startActivity(next);
                 break;
             case R.id.bQr:
                 next = new Intent(getApplicationContext(), NormalAttActivity.class);
+                startActivity(next);
+                break;
+            case R.id.bOld:
+                ageChar = 'O';
+                break;
+            case R.id.bMeddle:
+                ageChar = 'M';
+                break;
+            case R.id.bLittle:
+                ageChar = 'L';
                 break;
         }
-        startActivity(next);
+
+
     }
 
     public void dec() {
-        norm = (Button) findViewById(R.id.bNormal);
-        qr = (Button) findViewById(R.id.bQr);
-        norm.setOnClickListener(this);
-        qr.setOnClickListener(this);
-
+        findViewById(R.id.bNormal).setOnClickListener(this);
+        findViewById(R.id.bQr).setOnClickListener(this);
+        findViewById(R.id.bOld).setOnClickListener(this);
+        findViewById(R.id.bMeddle).setOnClickListener(this);
+        findViewById(R.id.bLittle).setOnClickListener(this);
     }
 
     @Override

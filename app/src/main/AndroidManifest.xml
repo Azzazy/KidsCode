@@ -24,7 +24,8 @@
         </activity>
         <activity
             android:name=".AttActivity"
-            android:label="@string/title_activity_att" >
+            android:label="@string/title_activity_att"
+            android:noHistory="true" >
         </activity>
         <activity
             android:name=".NewKidActivity"
@@ -36,11 +37,18 @@
         </activity>
         <activity
             android:name=".CoinsActivity"
-            android:label="@string/title_activity_coins" >
+            android:label="@string/title_activity_coins"
+            android:noHistory="true" >
         </activity>
         <activity
             android:name=".NormalAttActivity"
-            android:label="@string/title_activity_normal_att" >
+            android:label="@string/title_activity_normal_att"
+            android:noHistory="true" >
+        </activity>
+        <activity
+            android:name=".ShowCoinActivity"
+            android:label="@string/title_activity_show_coin"
+            android:noHistory="true">
         </activity>
     </application>
 
