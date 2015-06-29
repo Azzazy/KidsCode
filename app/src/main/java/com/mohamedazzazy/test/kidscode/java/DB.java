@@ -21,6 +21,7 @@ import java.util.Date;
  * Created by Mohamed Azzazy on 27/06/2015 withen KidsCode
  */
 public class DB {
+
     static final String LOG_TAG = DB.class.getSimpleName();
     static final String DIR_NAME = "KidsCode";
 
@@ -28,19 +29,26 @@ public class DB {
     static String data;
 
     /*      ////////////////DATA FORMAT \\\\\\\\\\\\\\\\\
-         "#<O,M,L>@CC<his code>@NN<Name Of Kid>@MM<His Mobile>@ATSS%SC<coin taken>%SD<date ddmmyyyy>SS%SC<coin taken>%SD<date ddmmyyyy>"
-    */
-
-    static public ArrayAdapter<Kid> getAdapterOfAtt(Activity a) {
-        Kid k[] = new Kid[DB.attList.size()];
+     "#<O,M,L>@CC<his code>@NN<Name Of Kid>@MM<His Mobile>@ATSS%SC<coin taken>%SD<date ddmmyyyy>SS%SC<coin taken>%SD<date ddmmyyyy>"
+     */
+    static public ArrayAdapter<String> getAdapterOfAtt(Activity a, int SHOWMODE) {
+        String k[] = new String[DB.attList.size()];
         int i = 0;
-        for (Kid x : DB.attList)
-            k[i++] = x;
+        for (Kid x : DB.attList) {
+            k[i++] = x.toString(SHOWMODE);
+        }
 
-        return new ArrayAdapter<Kid>(a,
+        return new ArrayAdapter<String>(a,
                 android.R.layout.simple_list_item_1, k);
     }
 
+    static public int findInAtt(Kid k){
+       for(int i = 0; i<DB.attList.size();i++){
+           if(k.code.equals(DB.attList.get(i).code))
+               return i;
+       }
+       return -1;
+    }
     static public void getAttDataBase(char ageChar) {
         String name = null, mobile = null, code = null;
         readTheFile();

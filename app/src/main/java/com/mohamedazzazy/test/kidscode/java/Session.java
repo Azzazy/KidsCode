@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by Mohamed Azzazy on 06/06/2015.
  */
 public class Session {
-    int coin;
+   public int coin;
     Date date;
 
     public Session( int coin, Date date) {

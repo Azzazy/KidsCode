@@ -8,12 +8,15 @@ import java.util.Date;
  */
 public class Kid {
 
+    static final int SHOWMODE_NAME_ONLY = 1;
+    static final int SHOWMODE_NAME_AND_COINS = 2;
+
     public String name;
-    String code;
+   public String code;
     String mobile;
     char ageGroup;
     boolean active;
-    ArrayList<Session> sessions;
+   public ArrayList<Session> sessions;
 
     public Kid(String name, String code, String mobile, ArrayList<Session> sessions, char age) {
         this.name = name;
@@ -46,8 +49,12 @@ public class Kid {
         }
     }
 
-    @Override
-    public String toString() {
-        return this.name + "   " + this.sessions.get(0).coin;
+    public String toString(int SHOWMODE) {
+        switch (SHOWMODE) {
+            case Kid.SHOWMODE_NAME_AND_COINS:
+                return this.name + "   " + this.sessions.get(0).coin;
+            default:    // Kid.SHOWMODE_NAME_ONLY
+                return this.name;
+        }
     }
 }
