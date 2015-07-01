@@ -28,8 +28,6 @@ public class AttActivity extends AppCompatActivity implements View.OnClickListen
                 startActivity(next);
                 break;
             case R.id.bQr:
-                next = new Intent(getApplicationContext(), NormalAttActivity.class);
-                startActivity(next);
                 break;
             case R.id.bOld:
                 ageChar = 'O';

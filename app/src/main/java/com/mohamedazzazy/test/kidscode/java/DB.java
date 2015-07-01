@@ -31,9 +31,15 @@ public class DB {
     /*      ////////////////DATA FORMAT \\\\\\\\\\\\\\\\\
      "#<O,M,L>@CC<his code>@NN<Name Of Kid>@MM<His Mobile>@ATSS%SC<coin taken>%SD<date ddmmyyyy>SS%SC<coin taken>%SD<date ddmmyyyy>"
      */
-    static public ArrayAdapter<String> getAdapterOfAtt(Activity a, int SHOWMODE) {
-        String k[] = new String[DB.attList.size()];
+    static public ArrayAdapter<String> getAdapterOfAtt(Activity a, int SHOWMODE, boolean FIRST_NULL) {
         int i = 0;
+        String k[];
+        if (FIRST_NULL) {
+            k = new String[DB.attList.size() + 1];
+            k[i++] = "Chose a kid";
+        } else {
+            k = new String[DB.attList.size()];
+        }
         for (Kid x : DB.attList) {
             k[i++] = x.toString(SHOWMODE);
         }
@@ -42,13 +48,14 @@ public class DB {
                 android.R.layout.simple_list_item_1, k);
     }
 
-    static public int findInAtt(Kid k){
-       for(int i = 0; i<DB.attList.size();i++){
-           if(k.code.equals(DB.attList.get(i).code))
-               return i;
-       }
-       return -1;
+    static public int findInAtt(Kid k) {
+        for (int i = 0; i < DB.attList.size(); i++) {
+            if (k.code.equals(DB.attList.get(i).code))
+                return i;
+        }
+        return -1;
     }
+
     static public void getAttDataBase(char ageChar) {
         String name = null, mobile = null, code = null;
         readTheFile();

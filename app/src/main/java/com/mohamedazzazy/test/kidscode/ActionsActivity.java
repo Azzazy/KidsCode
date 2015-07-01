@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class ActionsActivity extends AppCompatActivity implements View.OnClickListener {
-    //////// stopped here last time 28/6/2015
 
 
     @Override
@@ -30,8 +29,7 @@ public class ActionsActivity extends AppCompatActivity implements View.OnClickLi
         Intent i ;
         switch (v.getId()) {
             case R.id.bCoin:
-                i = new Intent(getApplicationContext(), CoinsActivity.class);
-                startActivity(i);
+               finish();
                 break;
             case R.id.bShowCoin:
                 i = new Intent(getApplicationContext(), ShowCoinActivity.class);

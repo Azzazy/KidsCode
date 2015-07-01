@@ -25,7 +25,7 @@ public class ShowCoinActivity extends AppCompatActivity implements View.OnClickL
 
     public void displayCoins() {
 
-        disp.setAdapter(DB.getAdapterOfAtt(this));
+        disp.setAdapter(DB.getAdapterOfAtt(this,Kid.SHOWMODE_NAME_AND_COINS,false));
     }
 
     public void dec() {
@@ -38,8 +38,7 @@ public class ShowCoinActivity extends AppCompatActivity implements View.OnClickL
         Intent i;
         switch (v.getId()) {
             case R.id.bDone:
-                i = new Intent(getApplicationContext(), ActionsActivity.class);
-                startActivity(i);
+                finish();
                 break;
         }
     }

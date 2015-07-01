@@ -48,7 +48,7 @@
         <activity
             android:name=".ShowCoinActivity"
             android:label="@string/title_activity_show_coin"
-            android:noHistory="true">
+            android:noHistory="true" >
         </activity>
     </application>
 

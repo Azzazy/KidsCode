@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by Mohamed Azzazy on 06/06/2015.
+ * Created by Mohamed Azzazy on 06/06/2015
+ within project KidsCode.
  */
 public class Kid {
 
-    static final int SHOWMODE_NAME_ONLY = 1;
-    static final int SHOWMODE_NAME_AND_COINS = 2;
+    static public final int SHOWMODE_NAME_ONLY = 1;
+    static public final int SHOWMODE_NAME_AND_COINS = 2;
 
     public String name;
    public String code;
