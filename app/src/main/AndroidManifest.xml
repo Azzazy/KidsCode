@@ -23,11 +23,6 @@
             android:label="@string/title_activity_stat" >
         </activity>
         <activity
-            android:name=".AttActivity"
-            android:label="@string/title_activity_att"
-            android:noHistory="true" >
-        </activity>
-        <activity
             android:name=".NewKidActivity"
             android:label="@string/title_activity_new_kid" >
         </activity>
@@ -50,6 +45,17 @@
             android:label="@string/title_activity_show_coin"
             android:noHistory="true" >
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings_activity"
+            android:noHistory="true" >
+        </activity>
+
+        <service
+            android:name=".java.DB"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.mohamedazzazy.test.kidscode;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import android.widget.ListView;
 import com.mohamedazzazy.test.kidscode.java.DB;
 import com.mohamedazzazy.test.kidscode.java.Kid;
 
-public class ShowCoinActivity extends AppCompatActivity implements View.OnClickListener {
+public class ShowCoinActivity extends Activity implements View.OnClickListener {
     ListView disp;
 
     @Override

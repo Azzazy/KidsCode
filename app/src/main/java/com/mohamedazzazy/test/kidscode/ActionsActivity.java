@@ -1,13 +1,18 @@
 package com.mohamedazzazy.test.kidscode;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.app.NotificationManager;
 
-public class ActionsActivity extends AppCompatActivity implements View.OnClickListener {
+import com.mohamedazzazy.test.kidscode.java.DB;
+
+public class ActionsActivity extends Activity implements View.OnClickListener {
 
 
     @Override
@@ -15,7 +20,7 @@ public class ActionsActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actions);
         dec();
-
+        DB.IS_OPENNED_BEFORE = true;
     }
 
     public void dec() {
@@ -26,16 +31,22 @@ public class ActionsActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        Intent i ;
+        Intent i;
+        int mId = 5;
         switch (v.getId()) {
             case R.id.bCoin:
-               finish();
+                i = new Intent(getApplicationContext(), CoinsActivity.class);
+                startActivity(i);
                 break;
             case R.id.bShowCoin:
                 i = new Intent(getApplicationContext(), ShowCoinActivity.class);
                 startActivity(i);
                 break;
             case R.id.bEnd:
+                i = new Intent(getApplicationContext(), DB.class);
+                stopService(i);
+                DB.IS_OPENNED_BEFORE = false;
+                finish();
                 i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
                 break;

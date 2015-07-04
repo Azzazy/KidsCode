@@ -1,5 +1,6 @@
 package com.mohamedazzazy.test.kidscode;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,8 +15,7 @@ import com.mohamedazzazy.test.kidscode.java.DB;
 import com.mohamedazzazy.test.kidscode.java.Kid;
 import com.mohamedazzazy.test.kidscode.java.Session;
 
-public class CoinsActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-    ////////////////// stopped here last time 28/6/2015
+public class CoinsActivity extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     Spinner spinner;
     TextView display, counter;

@@ -1,0 +1,21 @@
+ <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+        <CheckBoxPreference
+            android:key="use_qr"
+            android:title="Use QR"
+            android:summary="Use Qr codes to take attendance."
+            android:defaultValue="false" />
+        <ListPreference
+            android:key="age_group"
+            android:title="Age Group"
+            android:dialogTitle="which age you mean"
+            android:entries="@array/prefrences_list_entries"
+            android:entryValues="@array/prefrences_list_values"
+            android:summary="This the age you will work with."
+            android:defaultValue="O" />
+        <EditTextPreference
+            android:key="end_time"
+            android:title="Leaving Time"
+            android:dialogTitle="when to leave ? 'hh:mm'"
+            android:summary="The time we will leave the place."
+            android:defaultValue="11:30" />
+ </PreferenceScreen>

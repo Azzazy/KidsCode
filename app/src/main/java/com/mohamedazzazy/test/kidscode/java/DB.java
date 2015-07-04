@@ -2,11 +2,23 @@ package com.mohamedazzazy.test.kidscode.java;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Environment;
+import android.os.IBinder;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.mohamedazzazy.test.kidscode.ActionsActivity;
+import com.mohamedazzazy.test.kidscode.R;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,9 +30,87 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by Mohamed Azzazy on 27/06/2015 withen KidsCode
+ * Created by Mohamed Azzazy on 27/06/2015 within KidsCode
  */
-public class DB {
+public class DB extends Service {
+    public static boolean IS_OPENNED_BEFORE;
+    volatile boolean CONT_THREAD = true;
+    int END_TIME;
+     String END_TIME_FIXED ;
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    void getDate() {
+        END_TIME_FIXED = PreferenceManager.getDefaultSharedPreferences(this).getString("end_time", "11:30");
+        try {
+            Date date = new Date();
+            String newstring = new SimpleDateFormat("yyyy-MM-dd").format(date);
+            date = new SimpleDateFormat("yyyy-MM-ddHH:mm").parse(newstring + END_TIME_FIXED);
+            END_TIME = (int) ((date.getTime() - System.currentTimeMillis()) / 1000);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        getDate();
+        final int mId = 5;
+        Date y = new Date();
+
+        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+        final NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("OnGoing Session")
+                        .setOngoing(true)
+                        .setAutoCancel(false);
+
+        Intent notificationIntent = new Intent(this, ActionsActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        mBuilder.setContentIntent(pendingIntent);
+
+        startForeground(mId, mBuilder.build());
+        final NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+         new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i <= END_TIME && CONT_THREAD; i++) {
+                            String timeStr = Integer.toString((END_TIME -i)/3600);
+                            timeStr += ":" + Integer.toString(((END_TIME -i)%3600)/60);
+                            timeStr += ":" + Integer.toString((END_TIME -i)%60);
+                            mBuilder.setContentText(timeStr)
+                                    .setProgress(END_TIME,i, false);
+                            mNotificationManager.notify(mId, mBuilder.build());
+                            try {
+                                Thread.sleep(1 * 1000);
+                            } catch (InterruptedException e) {
+                                Log.d(LOG_TAG, "sleep failure");
+                            }
+                        }
+                        mBuilder.setContentText("Session Ended")
+                                .setProgress(0, 0, false);
+                        mNotificationManager.notify(mId, mBuilder.build());
+                        mNotificationManager.cancel(mId);
+                    }
+                }
+        ).start();
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
+        CONT_THREAD = false;
+        super.onDestroy();
+    }
 
     static final String LOG_TAG = DB.class.getSimpleName();
     static final String DIR_NAME = "KidsCode";

@@ -10,5 +10,24 @@
     <string name="title_activity_coins">CoinsActivity</string>
     <string name="title_activity_normal_att">NormalAttActivity</string>
     <string name="title_activity_show_coin">ShowCoinActivity</string>
+    <string name="title_activity_settings_activity">SettingsActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string-array
+        name="prefrences_list_entries">
+        <item
+            >Old</item>
+        <item
+            >Meddle</item>
+        <item
+            >Little</item>
+    </string-array>
+    <string-array
+        name="prefrences_list_values">
+        <item
+            >O</item>
+        <item
+            >M</item>
+        <item
+            >L</item>
+    </string-array>
 </resources>

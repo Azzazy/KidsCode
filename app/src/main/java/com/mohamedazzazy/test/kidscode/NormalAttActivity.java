@@ -1,17 +1,17 @@
 package com.mohamedazzazy.test.kidscode;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
 
-public class NormalAttActivity extends AppCompatActivity implements View.OnClickListener {
+public class NormalAttActivity extends Activity implements View.OnClickListener {
     TextView display;
     int counter;
 
@@ -19,9 +19,15 @@ public class NormalAttActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_normal_att);
-        DB.getAttDataBase(getAgeChar());
+        DB.getAttDataBase( MainActivity.ageChar);
         dec();
         displayNext();
+        startTheService();
+    }
+
+    public void startTheService() {
+        Intent theServiceTntent = new Intent(getApplicationContext(), DB.class);
+        startService(theServiceTntent);
     }
 
     public void dec() {
@@ -32,9 +38,7 @@ public class NormalAttActivity extends AppCompatActivity implements View.OnClick
         counter = 0;
     }
 
-    public char getAgeChar() {
-        return getIntent().getExtras().getChar("AGE");
-    }
+
 
     public void displayNext() {
         if (counter < DB.attList.size())
