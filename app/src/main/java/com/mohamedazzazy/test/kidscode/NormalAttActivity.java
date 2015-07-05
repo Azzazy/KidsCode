@@ -3,7 +3,6 @@ package com.mohamedazzazy.test.kidscode;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,11 +17,12 @@ public class NormalAttActivity extends Activity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_normal_att);
-        DB.getAttDataBase( MainActivity.ageChar);
-        dec();
-        displayNext();
-        startTheService();
+
+            setContentView(R.layout.activity_normal_att);
+            dec();
+            startTheService();
+            displayNext();
+
     }
 
     public void startTheService() {
@@ -37,7 +37,6 @@ public class NormalAttActivity extends Activity implements View.OnClickListener 
         findViewById(R.id.bYes).setOnClickListener(this);
         counter = 0;
     }
-
 
 
     public void displayNext() {

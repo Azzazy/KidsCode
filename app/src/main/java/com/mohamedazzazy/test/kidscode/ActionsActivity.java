@@ -1,14 +1,12 @@
 package com.mohamedazzazy.test.kidscode;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.app.NotificationManager;
+import android.widget.Toast;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
 
@@ -18,9 +16,14 @@ public class ActionsActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_actions);
-        dec();
-        DB.IS_OPENNED_BEFORE = true;
+         if (DB.attList.size()==0) {
+            Toast.makeText(this, "No kids have been chosen", Toast.LENGTH_LONG).show();
+            endTheSession();
+        } else {
+            setContentView(R.layout.activity_actions);
+            dec();
+            DB.IS_OPENNED_BEFORE = true;
+        }
     }
 
     public void dec() {
@@ -29,10 +32,19 @@ public class ActionsActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.bShowCoin).setOnClickListener(this);
     }
 
+    public void endTheSession() {
+        Intent i;
+        i = new Intent(getApplicationContext(), DB.class);
+        stopService(i);
+        DB.IS_OPENNED_BEFORE = false;
+        finish();
+        i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
+    }
+
     @Override
     public void onClick(View v) {
         Intent i;
-        int mId = 5;
         switch (v.getId()) {
             case R.id.bCoin:
                 i = new Intent(getApplicationContext(), CoinsActivity.class);
@@ -43,12 +55,7 @@ public class ActionsActivity extends Activity implements View.OnClickListener {
                 startActivity(i);
                 break;
             case R.id.bEnd:
-                i = new Intent(getApplicationContext(), DB.class);
-                stopService(i);
-                DB.IS_OPENNED_BEFORE = false;
-                finish();
-                i = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(i);
+                endTheSession();
                 break;
         }
     }

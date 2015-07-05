@@ -1,31 +1,20 @@
 package com.mohamedazzazy.test.kidscode;
 
-import android.annotation.SuppressLint;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     // TODO: need to modify the full record after finishing the session.
-    static char ageChar;
-    boolean USE_QR;
-    Intent next;
 
+    Intent next;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (DB.IS_OPENNED_BEFORE) {
@@ -36,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dec();
+//        DB.appendData();
     }
 
 
@@ -53,12 +43,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(next);
                 break;
             case R.id.bStart:
-                ageChar = PreferenceManager.getDefaultSharedPreferences(this).getString("age_group", "O").charAt(0);
-                USE_QR = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("use_qr", false);
-                if (!USE_QR) {
-                    finish();
-                    next = new Intent(getApplicationContext(), NormalAttActivity.class);
-                    startActivity(next);
+                char ageChar= PreferenceManager.getDefaultSharedPreferences(this).getString("age_group", "O").charAt(0);
+                boolean USE_QR = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("use_qr", false);
+                if (DB.getAttDataBase(ageChar)) {
+                    if (USE_QR) {
+                       // TODO : Start QR Activity
+                    }else{
+                        finish();
+                        next = new Intent(getApplicationContext(), NormalAttActivity.class);
+                        startActivity(next);
+                    }
+                } else {
+                    Toast.makeText(this, "No active kids in this age group", Toast.LENGTH_LONG).show();
                 }
                 break;
         }

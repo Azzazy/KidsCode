@@ -1,13 +1,11 @@
 package com.mohamedazzazy.test.kidscode;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,8 +19,6 @@ public class CoinsActivity extends Activity implements View.OnClickListener, Ada
     TextView display, counter;
     Kid k = null;
     int coins = 0;
-    RadioGroup rg;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +29,7 @@ public class CoinsActivity extends Activity implements View.OnClickListener, Ada
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (position > 0) k = DB.attList.get(position-1);
+        if (position > 0) k = DB.attList.get(position - 1);
 
     }
 
@@ -56,11 +52,11 @@ public class CoinsActivity extends Activity implements View.OnClickListener, Ada
     }
 
     public void AddCoinToKid(boolean CHANGE_CASE) {
-        if (k != null ) {
-            Session s = DB.attList.get(DB.findInAtt(k)).sessions.get(0);
+        if (k != null) {
+            Session s = DB.attList.get(DB.findByIdInAtt(k.id)).thisSession;
             s.coin += CHANGE_CASE ? coins : -coins;
-            k.sessions.set(0, s);
-            DB.attList.set(DB.findInAtt(k), k);
+            k.thisSession = s;
+            DB.attList.set(DB.findByIdInAtt(k.id), k);
             spinner.setSelection(0);
             display.setText(k.name + "  " + (CHANGE_CASE ? '+' : '-') + coins);
             k = null;

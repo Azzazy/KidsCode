@@ -1,12 +1,12 @@
 package com.mohamedazzazy.test.kidscode;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+
+import com.mohamedazzazy.test.kidscode.java.DB;
 
 public class StatActivity extends Activity implements View.OnClickListener {
 
@@ -28,7 +28,7 @@ public class StatActivity extends Activity implements View.OnClickListener {
 
                 break;
             case R.id.bAll:
-
+                DB.readFullDatabase();
                 break;
         }
     }

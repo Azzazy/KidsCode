@@ -1,21 +1,19 @@
 package com.mohamedazzazy.test.kidscode;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
 import com.mohamedazzazy.test.kidscode.java.Kid;
 
-public class ShowCoinActivity extends Activity implements View.OnClickListener {
+public class ShowCoinActivity extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     ListView disp;
-
+    //TODO : set OnClickListener on choosing a kid to display his information
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +29,25 @@ public class ShowCoinActivity extends Activity implements View.OnClickListener {
 
     public void dec() {
         disp = (ListView) findViewById(R.id.lvShowCoin);
+        disp.setOnItemSelectedListener(this);
         findViewById(R.id.bDone).setOnClickListener(this);
     }
 
     @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // TODO : complete this info activity
+        /*Intent i = new Intent(this,KidInfoActivity.class);
+        i.putExtra("index",position);
+        startActivity(i);*/
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
     public void onClick(View v) {
-        Intent i;
         switch (v.getId()) {
             case R.id.bDone:
                 finish();

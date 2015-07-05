@@ -1,61 +1,40 @@
 package com.mohamedazzazy.test.kidscode.java;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by Mohamed Azzazy on 06/06/2015
- within project KidsCode.
+ * within project KidsCode.
  */
 public class Kid {
 
     static public final int SHOWMODE_NAME_ONLY = 1;
     static public final int SHOWMODE_NAME_AND_COINS = 2;
 
+    public String id;
     public String name;
-   public String code;
-    String mobile;
-    char ageGroup;
-    boolean active;
-   public ArrayList<Session> sessions;
+    public String mobile;
+    public Session thisSession;
 
-    public Kid(String name, String code, String mobile, ArrayList<Session> sessions, char age) {
-        this.name = name;
-        this.code = code;
-        this.mobile = mobile;
-        this.sessions = sessions;
-        this.ageGroup = age;
-        active = isActive(age);
-    }
 
-    public Kid(String name, String code, String mobile) {
+    public Kid(String id,String name,  String mobile) {
         this.name = name;
-        this.code = code;
+        this.id = id;
         this.mobile = mobile;
-        this.sessions = new ArrayList<>();
-        this.sessions.add(new Session(0, new Date()));
+        this.thisSession = new Session(0, new Date());
     }
 
     public Kid() {
     }
 
-    static public boolean isActive(char c) {
-        switch (c) {
-            case 'O':
-            case 'M':
-            case 'L':
-                return true;
-            default:
-                return false;
-        }
-    }
-
     public String toString(int SHOWMODE) {
         switch (SHOWMODE) {
             case Kid.SHOWMODE_NAME_AND_COINS:
-                return this.name + "   " + this.sessions.get(0).coin;
+                return this.name + "   " + this.thisSession.coin;
             default:    // Kid.SHOWMODE_NAME_ONLY
                 return this.name;
         }
     }
+
+
 }
