@@ -16,13 +16,13 @@ public class ActionsActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         if (DB.attList.size()==0) {
+        if (DB.attList.size() == 0) {
             Toast.makeText(this, "No kids have been chosen", Toast.LENGTH_LONG).show();
             endTheSession();
         } else {
             setContentView(R.layout.activity_actions);
             dec();
-            DB.IS_OPENNED_BEFORE = true;
+            DB.IS_OPENED_BEFORE = true;
         }
     }
 
@@ -36,7 +36,8 @@ public class ActionsActivity extends Activity implements View.OnClickListener {
         Intent i;
         i = new Intent(getApplicationContext(), DB.class);
         stopService(i);
-        DB.IS_OPENNED_BEFORE = false;
+        DB.IS_OPENED_BEFORE = false;
+        DB.appendData();
         finish();
         i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);

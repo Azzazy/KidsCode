@@ -1,5 +1,8 @@
 package com.mohamedazzazy.test.kidscode.java;
 
+import android.annotation.SuppressLint;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -8,11 +11,10 @@ import java.util.ArrayList;
  */
 public class FullKid extends Kid {
 
-    char ageGroup;
     boolean active;
     ArrayList<Session> sessions;
 
-    public FullKid(String id,String name,  String mobile, char ageGroup) {
+    public FullKid(String id, String name, String mobile, char ageGroup) {
         this.active = isActive(ageGroup);
         this.ageGroup = ageGroup;
         this.name = name;
@@ -20,6 +22,7 @@ public class FullKid extends Kid {
         this.mobile = mobile;
         this.sessions = new ArrayList<>();
     }
+
 
 
     private static boolean isActive(char c) {
@@ -31,6 +34,16 @@ public class FullKid extends Kid {
             default:
                 return false;
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public String getAllSessionsForDB() {
+        String all = '\t' + this.id;
+        for (Session s : this.sessions) {
+            String dateStr = new SimpleDateFormat("ddMMyy").format(s.date);
+            all += "#" + s.coin + "@" + dateStr;
+        }
+        return all;
     }
 
     @Override

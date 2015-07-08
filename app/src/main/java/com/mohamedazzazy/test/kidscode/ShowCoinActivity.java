@@ -24,7 +24,7 @@ public class ShowCoinActivity extends Activity implements View.OnClickListener, 
 
     public void displayCoins() {
 
-        disp.setAdapter(DB.getAdapterOfAtt(this,Kid.SHOWMODE_NAME_AND_COINS,false));
+        disp.setAdapter(DB.getAdapterOfAtt(Kid.SHOWCASE_NAME_AND_COINS,false));
     }
 
     public void dec() {

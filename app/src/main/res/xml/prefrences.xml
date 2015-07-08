@@ -18,4 +18,11 @@
             android:dialogTitle="when to leave ? 'hh:mm'"
             android:summary="The time we will leave the place."
             android:defaultValue="11:30" />
+     <EditTextPreference
+         android:key="external_file_path"
+         android:title="Import DataBase"
+         android:dialogTitle="Where is the new one ?"
+         android:summary="Replace the current DataBase with a new one"
+         android:defaultValue="/storage/emulated/0/Download/KidsCode/MainDB.txt"
+     />
  </PreferenceScreen>

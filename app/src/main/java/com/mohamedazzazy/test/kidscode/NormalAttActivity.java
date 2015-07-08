@@ -18,10 +18,10 @@ public class NormalAttActivity extends Activity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-            setContentView(R.layout.activity_normal_att);
-            dec();
-            startTheService();
-            displayNext();
+        setContentView(R.layout.activity_normal_att);
+        dec();
+        startTheService();
+        displayNext();
 
     }
 

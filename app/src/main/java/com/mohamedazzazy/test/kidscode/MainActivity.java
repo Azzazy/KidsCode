@@ -10,14 +10,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
+import com.mohamedazzazy.test.kidscode.java.Rearrange;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    // TODO: need to modify the full record after finishing the session.
 
     Intent next;
+    int i = 1, a = 1, e = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (DB.IS_OPENNED_BEFORE) {
+        DB.a = this;
+        if (DB.IS_OPENED_BEFORE) {
             finish();
             next = new Intent(getApplicationContext(), ActionsActivity.class);
             startActivity(next);
@@ -25,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dec();
-//        DB.appendData();
     }
 
 
@@ -43,12 +45,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(next);
                 break;
             case R.id.bStart:
-                char ageChar= PreferenceManager.getDefaultSharedPreferences(this).getString("age_group", "O").charAt(0);
+                char ageChar = PreferenceManager.getDefaultSharedPreferences(this).getString("age_group", "O").charAt(0);
                 boolean USE_QR = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("use_qr", false);
+
                 if (DB.getAttDataBase(ageChar)) {
                     if (USE_QR) {
-                       // TODO : Start QR Activity
-                    }else{
+                        // TODO : Start QR Activity
+                    } else {
                         finish();
                         next = new Intent(getApplicationContext(), NormalAttActivity.class);
                         startActivity(next);
@@ -75,13 +78,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            next = new Intent(this, SettingsActivity.class);
-            startActivity(next);
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                next = new Intent(this, SettingsActivity.class);
+                startActivity(next);
+                break;
+            case R.id.action_import:
+                e = a = 1;
+                if (i++ == 3) {
+                    i = 1;
+                    String DEFAULT_PATH = "/storage/emulated/0/Download/KidsCode/MainDB.txt";
+                    DB.EXTERNAL_FILE_PATH = PreferenceManager.getDefaultSharedPreferences(this).getString("external_file_path", DEFAULT_PATH);
+                    DB.importDataBase();
+                } else {
+                    Toast.makeText(this, "need " + (4 - i) + " more pressing to do that", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.action_export:
+                i = a = 10;
+                if (e++ == 3) {
+                    e = 1;
+                    String DEFAULT_PATH = "/storage/emulated/0/Download/KidsCode/MainDB.txt";
+                    DB.EXTERNAL_FILE_PATH = PreferenceManager.getDefaultSharedPreferences(this).getString("external_file_path", DEFAULT_PATH);
+                    DB.exportDataBase();
+                } else {
+                    Toast.makeText(this, "need " + (4 - e) + " more pressing to do that", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.action_rearrange:
+                i = e = 1;
+                if (a++ == 3) {
+                    a = 1;
+                    Intent theServiceTntent = new Intent(getApplicationContext(), Rearrange.class);
+                    startService(theServiceTntent);
+                } else {
+                    Toast.makeText(this, "need " + (4 - a) + " more pressing to do that", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
 

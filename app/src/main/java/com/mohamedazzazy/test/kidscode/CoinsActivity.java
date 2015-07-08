@@ -44,7 +44,7 @@ public class CoinsActivity extends Activity implements View.OnClickListener, Ada
         findViewById(R.id.bDoneCoins).setOnClickListener(this);
         display = (TextView) findViewById(R.id.tvLogCoin);
         spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setAdapter(DB.getAdapterOfAtt(this, Kid.SHOWMODE_NAME_ONLY, true));
+        spinner.setAdapter(DB.getAdapterOfAtt( Kid.SHOWCASE_NAME_ONLY, true));
         spinner.setOnItemSelectedListener(this);
         findViewById(R.id.bPlus).setOnClickListener(this);
         findViewById(R.id.bMinus).setOnClickListener(this);

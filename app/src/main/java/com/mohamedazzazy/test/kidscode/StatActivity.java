@@ -28,7 +28,7 @@ public class StatActivity extends Activity implements View.OnClickListener {
 
                 break;
             case R.id.bAll:
-                DB.readFullDatabase();
+//                DB.readFullDatabase();
                 break;
         }
     }
