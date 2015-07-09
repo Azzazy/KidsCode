@@ -99,7 +99,7 @@ public class DB extends Service {
                 if (dataPartStr.length() == 0) continue;
                 if (isKid(dataPartStr.charAt(0))) {
                     String kidTermStr[] = dataPartStr.split("@");
-                    fullList.add(new FullKid(kidTermStr[0].substring(1), kidTermStr[1], kidTermStr[2], kidTermStr[0].charAt(0)));
+                    fullList.add(new FullKid(kidTermStr[0].substring(1), kidTermStr[1], kidTermStr[2], Kid.getAgeGroupfromChar(kidTermStr[0].charAt(0))));
                 } else {
                     int idIndex = findByIdInFull(dataPartStr.substring(0, dataPartStr.indexOf('#')));
                     if (idIndex == -1) continue;

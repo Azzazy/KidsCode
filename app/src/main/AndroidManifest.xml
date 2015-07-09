@@ -61,6 +61,12 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".KidInfoActivity"
+            android:label="@string/title_activity_kid_info"
+            android:noHistory="true">
+        </activity>
     </application>
 
 </manifest>

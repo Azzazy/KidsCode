@@ -14,7 +14,7 @@ public class FullKid extends Kid {
     boolean active;
     ArrayList<Session> sessions;
 
-    public FullKid(String id, String name, String mobile, char ageGroup) {
+    public FullKid(String id, String name, String mobile, AgeGroup ageGroup) {
         this.active = isActive(ageGroup);
         this.ageGroup = ageGroup;
         this.name = name;
@@ -25,8 +25,8 @@ public class FullKid extends Kid {
 
 
 
-    private static boolean isActive(char c) {
-        switch (c) {
+     static boolean isActive(AgeGroup c) {
+        switch (c.toString().charAt(0)) {
             case 'O':
             case 'M':
             case 'L':

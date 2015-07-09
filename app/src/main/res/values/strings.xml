@@ -30,4 +30,5 @@
         <item
             >L</item>
     </string-array>
+    <string name="title_activity_kid_info">KidInfoActivity</string>
 </resources>

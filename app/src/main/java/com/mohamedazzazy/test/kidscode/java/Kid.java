@@ -18,7 +18,10 @@ public class Kid {
     public String name;
     public String mobile;
     public Session thisSession;
-    char ageGroup;
+
+    public enum AgeGroup {Old, Meddle, Little}
+
+    AgeGroup ageGroup;
 
     public Kid(String id, String name, String mobile) {
         this.name = name;
@@ -31,17 +34,33 @@ public class Kid {
     }
 
     public String getKidForDB() {
-        char a[] = {'\t',ageGroup};
+        char a[] = {'\t', ageGroup.toString().charAt(0)};
         String s = new String(a);
-        s+= id + "@" + name + "@" + mobile;
-        return  s ;
+        s += id + "@" + name + "@" + mobile;
+        return s;
     }
+
+    public static AgeGroup getAgeGroupfromChar(char c) {
+        switch (c) {
+            case 'O':
+            case 'o':
+                return AgeGroup.Old;
+            case 'M':
+            case 'm':
+                return AgeGroup.Meddle;
+            case 'L':
+            case 'l':
+                return AgeGroup.Little;
+            default:
+                return null;
+        }
+    }
+
     @SuppressLint("SimpleDateFormat")
     public String getThisSessionForDB() {
         String dateStr = new SimpleDateFormat("ddMMyy").format(thisSession.date);
         return '\t' + id + "#" + thisSession.coin + "@" + dateStr;
     }
-
 
 
     public String toString(int SHOWMODE) {
