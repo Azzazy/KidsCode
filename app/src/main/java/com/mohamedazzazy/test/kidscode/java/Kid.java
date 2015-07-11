@@ -19,14 +19,14 @@ public class Kid {
     public String mobile;
     public Session thisSession;
 
-    public enum AgeGroup {Old, Meddle, Little}
+    public enum AgeGroup {Old, Meddle, Little }
 
     AgeGroup ageGroup;
 
     public Kid(String id, String name, String mobile) {
         this.name = name;
         this.id = id;
-        this.mobile = mobile;
+        this.mobile = (mobile.equals("un")) ? null : mobile;
         this.thisSession = new Session(0, new Date());
     }
 
@@ -36,7 +36,7 @@ public class Kid {
     public String getKidForDB() {
         char a[] = {'\t', ageGroup.toString().charAt(0)};
         String s = new String(a);
-        s += id + "@" + name + "@" + mobile;
+        s += id + "@" + name + "@" + ((mobile == null) ? "un" : mobile);
         return s;
     }
 

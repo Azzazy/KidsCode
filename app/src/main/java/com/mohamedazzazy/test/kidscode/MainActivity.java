@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.action_export:
-                i = a = 10;
+                i = a = 1;
                 if (e++ == 3) {
                     e = 1;
                     String DEFAULT_PATH = "/storage/emulated/0/Download/KidsCode/MainDB.txt";

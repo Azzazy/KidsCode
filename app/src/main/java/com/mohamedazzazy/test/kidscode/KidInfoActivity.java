@@ -1,5 +1,6 @@
 package com.mohamedazzazy.test.kidscode;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 import com.mohamedazzazy.test.kidscode.java.DB;
 import com.mohamedazzazy.test.kidscode.java.Kid;
 
-public class KidInfoActivity extends AppCompatActivity {
+public class KidInfoActivity extends Activity {
     TextView mobile;
     Kid k;
 
@@ -29,13 +30,17 @@ public class KidInfoActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.tvName_KidInfo)).setText(k.name);
         ((TextView) findViewById(R.id.tvCoins_KidInfo)).setText("Coins : " + k.thisSession.coin);
         ((TextView) findViewById(R.id.tvId_KidInfo)).setText("ID : " + k.id);
-        ((TextView) findViewById(R.id.tvMobile_KidInfo)).setText("Mobile : " + k.mobile);
-        findViewById(R.id.tvMobile_KidInfo).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callkid();
-            }
-        });
+        if(k.mobile==null){
+            ((TextView) findViewById(R.id.tvMobile_KidInfo)).setText("Mobile : Not available");
+        }else {
+            ((TextView) findViewById(R.id.tvMobile_KidInfo)).setText("Mobile : " + k.mobile);
+            findViewById(R.id.tvMobile_KidInfo).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callkid();
+                }
+            });
+        }
     }
 
     void callkid() {

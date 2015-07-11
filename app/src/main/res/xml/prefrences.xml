@@ -10,7 +10,7 @@
             android:dialogTitle="which age you mean"
             android:entries="@array/prefrences_list_entries"
             android:entryValues="@array/prefrences_list_values"
-            android:summary="This the age you will work with."
+            android:summary="This is the age you will work with."
             android:defaultValue="O" />
         <EditTextPreference
             android:key="end_time"
@@ -20,9 +20,8 @@
             android:defaultValue="11:30" />
      <EditTextPreference
          android:key="external_file_path"
-         android:title="Import DataBase"
-         android:dialogTitle="Where is the new one ?"
-         android:summary="Replace the current DataBase with a new one"
+         android:title="DataBase Location"
+         android:dialogTitle="Where is it ?"
          android:defaultValue="/storage/emulated/0/Download/KidsCode/MainDB.txt"
      />
  </PreferenceScreen>

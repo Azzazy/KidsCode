@@ -49,7 +49,7 @@ public class Rearrange extends Service {
                         }
                         stopForeground(true);
                         mBuilder.setContentTitle("Task Finished")
-                                .setContentText( n + " Kids have been arranged correctly")
+                                .setContentText( n + " Kids have been rearranged correctly")
                                 .setOngoing(false)
                                 .setAutoCancel(true);
                         mNotificationManager.notify(mId, mBuilder.build());

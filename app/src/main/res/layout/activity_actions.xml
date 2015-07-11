@@ -14,9 +14,9 @@
         android:singleLine="false"
         android:text="Coins"
         android:textSize="30dp"
-        android:layout_marginTop="89dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp" />
 
     <Button
         android:id="@+id/bEnd"
@@ -27,7 +27,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/bShowCoin"
         android:layout_alignStart="@+id/bShowCoin"
-        android:layout_marginBottom="89dp" />
+        android:layout_marginBottom="24dp" />
 
     <Button
         android:id="@+id/bShowCoin"

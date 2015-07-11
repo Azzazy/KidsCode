@@ -46,13 +46,13 @@
         android:layout_centerHorizontal="true" />
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinner"
-        android:layout_marginTop="80dp"
         android:layout_below="@+id/tvLogCoin"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="43dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -60,9 +60,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0"
         android:id="@+id/tvCoinCounter"
-        android:layout_above="@+id/bDoneCoins"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="111dp" />
+        android:textSize="30dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -70,9 +70,10 @@
         android:layout_height="wrap_content"
         android:text="/\\"
         android:id="@+id/bPlus"
+        android:textSize="30dp"
         android:layout_alignTop="@+id/tvCoinCounter"
-        android:layout_toLeftOf="@+id/tvCoinCounter"
-        android:layout_toStartOf="@+id/tvCoinCounter" />
+        android:layout_toRightOf="@+id/bDoneCoins"
+        android:layout_toEndOf="@+id/bDoneCoins" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -80,8 +81,9 @@
         android:layout_height="wrap_content"
         android:text="\\/"
         android:id="@+id/bMinus"
+        android:textSize="30dp"
         android:layout_alignTop="@+id/tvCoinCounter"
-        android:layout_toRightOf="@+id/tvCoinCounter"
-        android:layout_toEndOf="@+id/tvCoinCounter" />
+        android:layout_toLeftOf="@+id/bDoneCoins"
+        android:layout_toStartOf="@+id/bDoneCoins" />
 
 </RelativeLayout>

@@ -15,7 +15,6 @@ import com.mohamedazzazy.test.kidscode.java.Kid;
 public class ShowCoinActivity extends Activity  {
     ListView disp;
 
-    //TODO : set OnClickListener on choosing a kid to display his information
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,18 +30,12 @@ public class ShowCoinActivity extends Activity  {
 
     public void dec() {
         disp = (ListView) findViewById(R.id.lvShowCoin);
-        disp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        disp.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // TODO : complete this info activity
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(ShowCoinActivity.this, KidInfoActivity.class);
                 i.putExtra("index", position);
                 startActivity(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }

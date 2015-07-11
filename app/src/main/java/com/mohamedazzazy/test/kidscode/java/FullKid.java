@@ -19,7 +19,7 @@ public class FullKid extends Kid {
         this.ageGroup = ageGroup;
         this.name = name;
         this.id = id;
-        this.mobile = mobile;
+        this.mobile = (mobile.equals("un"))?null:mobile;
         this.sessions = new ArrayList<>();
     }
 
