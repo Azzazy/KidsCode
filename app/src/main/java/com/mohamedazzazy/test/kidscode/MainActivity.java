@@ -41,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bStat:
+                if (!DB.DB_IS_READ) {
+                    DB.readFullDB(this);
+                    DB.DB_IS_READ =true;
+                }
                 next = new Intent(getApplicationContext(), StatActivity.class);
                 startActivity(next);
                 break;
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 boolean USE_QR = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("use_qr", false);
 
                 if (DB.getAttDataBase(ageChar)) {
+                    DB.DB_IS_READ = false;
                     if (USE_QR) {
                         // TODO : Start QR Activity
                     } else {
@@ -106,14 +111,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.action_rearrange:
-                i = e = 1;
-                if (a++ == 3) {
-                    a = 1;
-                    Intent theServiceTntent = new Intent(getApplicationContext(), Rearrange.class);
-                    startService(theServiceTntent);
-                } else {
-                    Toast.makeText(this, "need " + (4 - a) + " more pressing to do that", Toast.LENGTH_SHORT).show();
-                }
+//                i = e = 1;
+//                if (a++ == 3) {
+//                    a = 1;
+//                    Intent theServiceTntent = new Intent(getApplicationContext(), Rearrange.class);
+//                    startService(theServiceTntent);
+//                } else {
+//                    Toast.makeText(this, "need " + (4 - a) + " more pressing to do that", Toast.LENGTH_SHORT).show();
+//                }
+                Toast.makeText(this,"Oops, this function is not working proberly!",Toast.LENGTH_SHORT).show();
                 break;
             default:
                 return super.onOptionsItemSelected(item);

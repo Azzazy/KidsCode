@@ -14,14 +14,14 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="Kid Name"
-        android:textSize="30dp" />
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/bNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -34,15 +34,25 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="Stop"
-        android:textSize="30dp" />
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/bYes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Yes"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/bAll_NormalAtt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="All"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 

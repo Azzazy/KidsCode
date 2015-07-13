@@ -1,5 +1,7 @@
 package com.mohamedazzazy.test.kidscode.java;
 
+import android.annotation.SuppressLint;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,11 +23,18 @@ public class Session {
         this.coin = coin;
         this.date = date;
     }
+
+    @SuppressLint("SimpleDateFormat")
     private void setDate(String dateStr) {
         try {
             this.date = new SimpleDateFormat("ddMMyy").parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public String getSession() {
+        return (new SimpleDateFormat("dd-MM-yyyy").format(date)) + "\t\t\t" + coin;
     }
 }

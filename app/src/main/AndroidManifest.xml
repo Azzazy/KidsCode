@@ -43,7 +43,7 @@
         <activity
             android:name=".ShowCoinActivity"
             android:label="@string/title_activity_show_coin"
-            android:noHistory="true" >
+             >
         </activity>
         <activity
             android:name=".SettingsActivity"
@@ -51,6 +51,13 @@
             android:noHistory="true" >
         </activity>
 
+
+
+        <activity
+            android:name=".KidInfoActivity"
+            android:label="@string/title_activity_kid_info"
+            android:noHistory="true">
+        </activity>
         <service
             android:name=".java.DB"
             android:enabled="true"
@@ -61,12 +68,11 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-
-        <activity
-            android:name=".KidInfoActivity"
-            android:label="@string/title_activity_kid_info"
-            android:noHistory="true">
-        </activity>
+        <service
+            android:name=".java.ReadFullDB"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

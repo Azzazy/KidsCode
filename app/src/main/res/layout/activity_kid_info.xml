@@ -23,7 +23,7 @@
         android:layout_below="@+id/tvName_KidInfo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="10dp" />
     <TextView
         android:text="Mobile :"
         android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
         android:layout_below="@+id/tvCoins_KidInfo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="10dp" />
     <TextView
         android:text="ID :"
         android:layout_width="wrap_content"
@@ -43,6 +43,16 @@
         android:layout_below="@+id/tvMobile_KidInfo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="10dp" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvCoins_KidInfo"
+        android:layout_below="@+id/tvId_KidInfo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:visibility="invisible" />
 
 </RelativeLayout>

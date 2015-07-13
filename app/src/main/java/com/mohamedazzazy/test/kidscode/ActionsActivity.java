@@ -53,6 +53,7 @@ public class ActionsActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.bShowCoin:
                 i = new Intent(getApplicationContext(), ShowCoinActivity.class);
+                i.putExtra("From_Actions_Activity",true);
                 startActivity(i);
                 break;
             case R.id.bEnd:

@@ -52,7 +52,7 @@
         android:layout_below="@+id/tvLogCoin"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="43dp" />
+        android:layout_marginTop="43sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0"
         android:id="@+id/tvCoinCounter"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:text="/\\"
         android:id="@+id/bPlus"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_alignTop="@+id/tvCoinCounter"
         android:layout_toRightOf="@+id/bDoneCoins"
         android:layout_toEndOf="@+id/bDoneCoins" />
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:text="\\/"
         android:id="@+id/bMinus"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_alignTop="@+id/tvCoinCounter"
         android:layout_toLeftOf="@+id/bDoneCoins"
         android:layout_toStartOf="@+id/bDoneCoins" />

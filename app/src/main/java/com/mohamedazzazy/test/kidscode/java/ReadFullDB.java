@@ -14,7 +14,7 @@ import com.mohamedazzazy.test.kidscode.R;
  * Created by Mohamed Azzazy on 07/07/2015
  * within project KidsCode.
  */
-public class Rearrange extends Service {
+public class ReadFullDB extends Service  {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -23,37 +23,32 @@ public class Rearrange extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         new Thread(
                 new Runnable() {
                     @Override
                     public void run() {
-                        int mId = 6;
+                        int mId = 7;
                         NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(Rearrange.this)
+                                new NotificationCompat.Builder(ReadFullDB.this)
                                         .setSmallIcon(R.mipmap.ic_launcher)
-                                        .setContentTitle("Rearranging DataBase")
+                                        .setContentTitle("Reading DataBase")
                                         .setContentText("....")
                                         .setOngoing(true)
                                         .setAutoCancel(false);
-
                         startForeground(mId, mBuilder.build());
 
                         NotificationManager mNotificationManager =
                                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-                        int n = DB.arrangeDataBase(getApplicationContext());
-                        try {
-                            Thread.sleep(1000);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        if (!DB.readFullDatabase()) {
+                            stopForeground(true);
+                            mBuilder.setContentTitle("Error!")
+                                    .setContentText("Problem in reading the DataBase")
+                                    .setOngoing(false)
+                                    .setAutoCancel(true);
+                            mNotificationManager.notify(mId, mBuilder.build());
                         }
-                        stopForeground(true);
-                        mBuilder.setContentTitle("Task Finished")
-                                .setContentText( n + " Kids have been rearranged correctly")
-                                .setOngoing(false)
-                                .setAutoCancel(true);
-                        mNotificationManager.notify(mId, mBuilder.build());
+
                         stopSelf();
                     }
                 }

@@ -12,20 +12,32 @@ import android.widget.ListView;
 import com.mohamedazzazy.test.kidscode.java.DB;
 import com.mohamedazzazy.test.kidscode.java.Kid;
 
-public class ShowCoinActivity extends Activity  {
+public class ShowCoinActivity extends Activity {
     ListView disp;
+    boolean FROM_ACTIONS_ACTIVITY = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_coin);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            FROM_ACTIONS_ACTIVITY = extras.getBoolean("From_Actions_Activity");
+        }
         dec();
-        displayCoins();
+        if (FROM_ACTIONS_ACTIVITY) {
+            displayCoinsFromAtt();
+        } else {
+            displayCoinsFromFull();
+        }
     }
 
-    public void displayCoins() {
+    public void displayCoinsFromAtt() {
+        disp.setAdapter(DB.getAdapterOfKidsInAtt(Kid.SHOWCASE_NAME_AND_COINS, false));
+    }
 
-        disp.setAdapter(DB.getAdapterOfAtt(Kid.SHOWCASE_NAME_AND_COINS, false));
+    public void displayCoinsFromFull() {
+        disp.setAdapter(DB.getAdapterOfKidsInFull(Kid.SHOWCASE_NAME_AND_COINS, false));
     }
 
     public void dec() {
@@ -35,6 +47,7 @@ public class ShowCoinActivity extends Activity  {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(ShowCoinActivity.this, KidInfoActivity.class);
                 i.putExtra("index", position);
+                i.putExtra("From_Actions_Activity", FROM_ACTIONS_ACTIVITY);
                 startActivity(i);
             }
         });
@@ -60,5 +73,11 @@ public class ShowCoinActivity extends Activity  {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
     }
 }

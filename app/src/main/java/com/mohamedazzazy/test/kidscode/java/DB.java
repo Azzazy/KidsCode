@@ -33,24 +33,24 @@ import java.util.Date;
  * Created by Mohamed Azzazy on 27/06/2015 within KidsCode
  */
 public class DB extends Service {
-    public static boolean IS_OPENED_BEFORE;
+    public static boolean IS_OPENED_BEFORE, DB_IS_READ = false;
     volatile boolean CONT_THREAD = true;
     static boolean READ_KIDS_ONLY = true, READ_ALL = false;
     static public ArrayList<Kid> attList;
-    static public ArrayList<Kid> newKidsList;
-    static public ArrayList<FullKid> fullList;
+    static public ArrayList<Kid> newKidsList, fullList;
     public static String EXTERNAL_FILE_PATH;
     static String INTERNAL_FILE_NAME = "MainDB.txt", data, END_TIME_FIXED;
     static int DB_VERSION = 1, END_TIME;
     public static Activity a;
 
-    public static int arrangeDataBase() {
-        readFullDatabase();
+    public static int arrangeDataBase(Context a) {
+        readFullDB(a);
         data = "";
         int n = fullList.size();
         addFullKidsToData();
         addFullSessionsToData();
         writeInternalFile(Context.MODE_PRIVATE);
+        DB.DB_IS_READ = true;
         return n;
     }
 
@@ -91,6 +91,11 @@ public class DB extends Service {
         return (attList.size() > 0);
     }
 
+    public static void readFullDB(Context a) {
+        Intent theServiceTntent = new Intent(a, ReadFullDB.class);
+        a.startService(theServiceTntent);
+    }
+
     public static boolean readFullDatabase() {
         if (!readInternalFile(READ_ALL)) return false;
         fullList = new ArrayList<>();
@@ -99,11 +104,11 @@ public class DB extends Service {
                 if (dataPartStr.length() == 0) continue;
                 if (isKid(dataPartStr.charAt(0))) {
                     String kidTermStr[] = dataPartStr.split("@");
-                    fullList.add(new FullKid(kidTermStr[0].substring(1), kidTermStr[1], kidTermStr[2], Kid.getAgeGroupfromChar(kidTermStr[0].charAt(0))));
+                    fullList.add(new Kid(kidTermStr[0].substring(1), kidTermStr[1], kidTermStr[2], Kid.getAgeGroupfromChar(kidTermStr[0].charAt(0))));
                 } else {
                     int idIndex = findByIdInFull(dataPartStr.substring(0, dataPartStr.indexOf('#')));
                     if (idIndex == -1) continue;
-                    FullKid fk = fullList.get(idIndex);
+                    Kid fk = fullList.get(idIndex);
                     dataPartStr = dataPartStr.substring(dataPartStr.indexOf('#') + 1);
                     for (String onetSesStr : dataPartStr.split("#")) {
                         String sesTermStr[] = onetSesStr.split("@");
@@ -125,23 +130,52 @@ public class DB extends Service {
         return -1;
     }
 
-    public static ArrayAdapter<String> getAdapterOfAtt(int SHOWCASE,
-                                                       boolean FIRST_NULL) {
+    public static ArrayAdapter<String> getAdapterOfKidsInAtt(int SHOWCASE,
+                                                             boolean FIRST_NULL) {
         int i = 0;
         String k[];
         if (FIRST_NULL) {
             k = new String[DB.attList.size() + 1];
-            k[i++] = "Chose a kid";
+            k[i++] = "All";
         } else {
             k = new String[DB.attList.size()];
         }
         for (Kid x : DB.attList) {
-            k[i++] = x.toString(SHOWCASE);
+            k[i++] = x.getInfo(SHOWCASE);
         }
         return new ArrayAdapter<>(a,
                 android.R.layout.simple_list_item_1, k);
     }
 
+
+    public static ArrayAdapter<String> getAdapterOfKidsInFull(int SHOWCASE,
+                                                              boolean FIRST_NULL) {
+        int i = 0;
+        String k[];
+        if (FIRST_NULL) {
+            k = new String[DB.fullList.size() + 1];
+            k[i++] = "Chose a kid";
+        } else {
+            k = new String[DB.fullList.size()];
+        }
+        for (Kid x : DB.fullList) {
+            k[i++] = x.getInfo(SHOWCASE);
+        }
+        return new ArrayAdapter<>(a,
+                android.R.layout.simple_list_item_1, k);
+    }
+
+    public static ArrayAdapter<String> getAdapterOfSessions(int INDEX) {
+        int i = 0;
+        ArrayList<Session> s = fullList.get(INDEX).sessions;
+        String k[];
+        k = new String[s.size()];
+        for (Session x : s) {
+            k[i++] = x.getSession();
+        }
+        return new ArrayAdapter<>(a,
+                android.R.layout.simple_list_item_1, k);
+    }
 
     static boolean isKid(char c) {
         switch (c) {
@@ -261,7 +295,7 @@ public class DB extends Service {
 
     static void addFullKidsToData() {
         data += '\n';
-        for (FullKid k : fullList) {
+        for (Kid k : fullList) {
             String s = k.getKidForDB();
             data += s;
         }
@@ -281,7 +315,7 @@ public class DB extends Service {
 
     static void addFullSessionsToData() {
         data += '\n';
-        for (FullKid k : fullList) {
+        for (Kid k : fullList) {
             data += k.getAllSessionsForDB();
         }
     }
@@ -340,9 +374,6 @@ public class DB extends Service {
                                 e.printStackTrace();
                             }
                         }
-//                        mBuilder.setContentText("Session Ended")
-//                                .setProgress(0, 0, false);
-//                        mNotificationManager.notify(mId, mBuilder.build());
                         mNotificationManager.cancel(mId);
                     }
                 }

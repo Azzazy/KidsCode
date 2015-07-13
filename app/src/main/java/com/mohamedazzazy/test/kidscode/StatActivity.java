@@ -1,6 +1,7 @@
 package com.mohamedazzazy.test.kidscode;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,15 +21,18 @@ public class StatActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Intent i;
         switch (v.getId()) {
             case R.id.bCoin:
-
+                i = new Intent(getApplicationContext(), ShowCoinActivity.class);
+                i.putExtra("From_Actions_Activity", false);
+                startActivity(i);
                 break;
             case R.id.bAtt:
 
                 break;
             case R.id.bAll:
-//                DB.readFullDatabase();
+
                 break;
         }
     }

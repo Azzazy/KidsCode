@@ -3,11 +3,11 @@ package com.mohamedazzazy.test.kidscode;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
@@ -16,23 +16,33 @@ import com.mohamedazzazy.test.kidscode.java.Kid;
 public class KidInfoActivity extends Activity {
     TextView mobile;
     Kid k;
+    ListView list;
+    static boolean FROM_ACTIONS_ACTIVITY = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kid_info);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            FROM_ACTIONS_ACTIVITY = extras.getBoolean("From_Actions_Activity");
+        }
         dec();
     }
 
     void dec() {
         int index = getIntent().getExtras().getInt("index");
-        k = DB.attList.get(index);
+        if (FROM_ACTIONS_ACTIVITY) {
+            k = DB.attList.get(index);
+        } else {
+            k = DB.fullList.get(index);
+        }
         ((TextView) findViewById(R.id.tvName_KidInfo)).setText(k.name);
-        ((TextView) findViewById(R.id.tvCoins_KidInfo)).setText("Coins : " + k.thisSession.coin);
+        ((TextView) findViewById(R.id.tvCoins_KidInfo)).setText("Coins : " + k.getTotalCoins());
         ((TextView) findViewById(R.id.tvId_KidInfo)).setText("ID : " + k.id);
-        if(k.mobile==null){
+        if (k.mobile == null) {
             ((TextView) findViewById(R.id.tvMobile_KidInfo)).setText("Mobile : Not available");
-        }else {
+        } else {
             ((TextView) findViewById(R.id.tvMobile_KidInfo)).setText("Mobile : " + k.mobile);
             findViewById(R.id.tvMobile_KidInfo).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -40,6 +50,11 @@ public class KidInfoActivity extends Activity {
                     callkid();
                 }
             });
+        }
+        if (!FROM_ACTIONS_ACTIVITY) {
+            list = (ListView) findViewById(R.id.lvCoins_KidInfo);
+            list.setVisibility(View.VISIBLE);
+            list.setAdapter(DB.getAdapterOfSessions(index));
         }
     }
 
@@ -52,8 +67,9 @@ public class KidInfoActivity extends Activity {
     @Override
     public void onBackPressed() {
         finish();
-        Intent intent = new Intent(this, ShowCoinActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, ShowCoinActivity.class);
+//        intent.putExtra("From_Actions_Activity", FROM_ACTIONS_ACTIVITY);
+//        startActivity(intent);
     }
 
     @Override

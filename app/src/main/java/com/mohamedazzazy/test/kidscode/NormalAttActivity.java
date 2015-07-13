@@ -35,6 +35,7 @@ public class NormalAttActivity extends Activity implements View.OnClickListener 
         findViewById(R.id.bStop).setOnClickListener(this);
         findViewById(R.id.bNo).setOnClickListener(this);
         findViewById(R.id.bYes).setOnClickListener(this);
+        findViewById(R.id.bAll_NormalAtt).setOnClickListener(this);
         counter = 0;
     }
 
@@ -74,6 +75,9 @@ public class NormalAttActivity extends Activity implements View.OnClickListener 
                 break;
             case R.id.bStop:
                 stopAtt();
+                break;
+            case R.id.bAll_NormalAtt:
+                toTheNext();
                 break;
         }
     }

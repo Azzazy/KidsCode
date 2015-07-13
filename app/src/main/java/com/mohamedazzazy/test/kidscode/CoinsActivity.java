@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ public class CoinsActivity extends Activity implements View.OnClickListener, Ada
     TextView display, counter;
     Kid k = null;
     int coins = 0;
+    boolean toAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public class CoinsActivity extends Activity implements View.OnClickListener, Ada
         findViewById(R.id.bDoneCoins).setOnClickListener(this);
         display = (TextView) findViewById(R.id.tvLogCoin);
         spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setAdapter(DB.getAdapterOfAtt( Kid.SHOWCASE_NAME_ONLY, true));
+        spinner.setAdapter(DB.getAdapterOfKidsInAtt(Kid.SHOWCASE_NAME_ONLY, true));
         spinner.setOnItemSelectedListener(this);
         findViewById(R.id.bPlus).setOnClickListener(this);
         findViewById(R.id.bMinus).setOnClickListener(this);
@@ -52,7 +55,15 @@ public class CoinsActivity extends Activity implements View.OnClickListener, Ada
     }
 
     public void AddCoinToKid(boolean CHANGE_CASE) {
-        if (k != null) {
+        if (k == null) {
+            for (Kid k:DB.attList) {
+                Session s = DB.attList.get(DB.findByIdInAtt(k.id)).thisSession;
+                s.coin += CHANGE_CASE ? coins : -coins;
+                k.thisSession = s;
+                DB.attList.set(DB.findByIdInAtt(k.id), k);
+            }
+            display.setText("Everybody " + (CHANGE_CASE ? '+' : '-') + coins);
+        } else {
             Session s = DB.attList.get(DB.findByIdInAtt(k.id)).thisSession;
             s.coin += CHANGE_CASE ? coins : -coins;
             k.thisSession = s;
