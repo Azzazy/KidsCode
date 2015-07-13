@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
@@ -31,7 +33,7 @@ public class KidInfoActivity extends Activity {
     }
 
     void dec() {
-        int index = getIntent().getExtras().getInt("index");
+        final int index = getIntent().getExtras().getInt("index");
         if (FROM_ACTIONS_ACTIVITY) {
             k = DB.attList.get(index);
         } else {
@@ -55,6 +57,17 @@ public class KidInfoActivity extends Activity {
             list = (ListView) findViewById(R.id.lvCoins_KidInfo);
             list.setVisibility(View.VISIBLE);
             list.setAdapter(DB.getAdapterOfSessions(index));
+            RadioButton rb = (RadioButton) findViewById(R.id.rbActive_KidInfo);
+            rb.setVisibility(View.VISIBLE);
+            rb.setChecked(k.active);
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    k.active=isChecked;
+                    DB.fullList.set(index,k);
+                    DB.NEED_REWRITE=true;
+                }
+            });
         }
     }
 

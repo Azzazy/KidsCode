@@ -10,10 +10,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
-import com.mohamedazzazy.test.kidscode.java.Rearrange;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+    //TODO : Check rearrange
     Intent next;
     int i = 1, a = 1, e = 1;
 
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.bStat:
                 if (!DB.DB_IS_READ) {
-                    DB.readFullDB(this);
+                    DB.readFullDBInService(this);
                     DB.DB_IS_READ =true;
                 }
                 next = new Intent(getApplicationContext(), StatActivity.class);

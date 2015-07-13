@@ -33,7 +33,7 @@ import java.util.Date;
  * Created by Mohamed Azzazy on 27/06/2015 within KidsCode
  */
 public class DB extends Service {
-    public static boolean IS_OPENED_BEFORE, DB_IS_READ = false;
+    public static boolean IS_OPENED_BEFORE, DB_IS_READ = false,NEED_REWRITE=false;
     volatile boolean CONT_THREAD = true;
     static boolean READ_KIDS_ONLY = true, READ_ALL = false;
     static public ArrayList<Kid> attList;
@@ -43,8 +43,17 @@ public class DB extends Service {
     static int DB_VERSION = 1, END_TIME;
     public static Activity a;
 
+    public static void rewriteFullDB(){
+        if(NEED_REWRITE){
+            addFullKidsToData();
+            addFullSessionsToData();
+            writeInternalFile(Context.MODE_PRIVATE);
+            DB.DB_IS_READ = true;
+            NEED_REWRITE=false;
+        }
+    }
     public static int arrangeDataBase(Context a) {
-        readFullDB(a);
+        readFullDatabase();
         data = "";
         int n = fullList.size();
         addFullKidsToData();
@@ -91,7 +100,7 @@ public class DB extends Service {
         return (attList.size() > 0);
     }
 
-    public static void readFullDB(Context a) {
+    public static void readFullDBInService(Context a) {
         Intent theServiceTntent = new Intent(a, ReadFullDB.class);
         a.startService(theServiceTntent);
     }

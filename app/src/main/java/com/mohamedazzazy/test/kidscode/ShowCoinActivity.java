@@ -78,6 +78,7 @@ public class ShowCoinActivity extends Activity {
     @Override
     public void onBackPressed() {
         finish();
+        DB.rewriteFullDB();
         super.onBackPressed();
     }
 }

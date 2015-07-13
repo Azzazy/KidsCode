@@ -19,7 +19,7 @@ public class Kid {
     public String name;
     public String mobile;
     public Session thisSession;
-    boolean active;
+   public boolean active;
     ArrayList<Session> sessions;
 
     public enum AgeGroup {Old, Middle, Little }
@@ -44,8 +44,13 @@ public class Kid {
 
 
     public String getKidForDB() {
-        char a[] = {'\t', ageGroup.toString().charAt(0)};
-        String s = new String(a);
+        String s;
+        if(!active){
+          s = '\t'+ ageGroup.toString().toLowerCase().charAt(0) +"";
+        }else{
+            s = '\t'+ ageGroup.toString().charAt(0) +"";
+        }
+
         s += id + "@" + name + "@" + ((mobile == null) ? "un" : mobile);
         return s;
     }
