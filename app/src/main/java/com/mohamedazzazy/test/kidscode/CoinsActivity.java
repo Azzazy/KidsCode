@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -52,6 +53,15 @@ public class CoinsActivity extends Activity implements View.OnClickListener, Ada
         findViewById(R.id.bPlus).setOnClickListener(this);
         findViewById(R.id.bMinus).setOnClickListener(this);
         counter = (TextView) findViewById(R.id.tvCoinCounter);
+        NumberPicker np = (NumberPicker) findViewById(R.id.npCoinCounter_Coins);
+        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                coins = newVal;
+            }
+        });
+        np.setMaxValue(10);
+        np.setMinValue(0);
     }
 
     public void AddCoinToKid(boolean CHANGE_CASE) {

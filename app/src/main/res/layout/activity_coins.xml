@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="-"
+        android:textSize="50sp"
         android:id="@+id/bNegative"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -31,6 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
+        android:textSize="50sp"
         android:id="@+id/bPositive"
         android:layout_alignBottom="@+id/bNegative"
         android:layout_alignParentRight="true"
@@ -85,5 +87,13 @@
         android:layout_alignTop="@+id/tvCoinCounter"
         android:layout_toLeftOf="@+id/bDoneCoins"
         android:layout_toStartOf="@+id/bDoneCoins" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/npCoinCounter_Coins"
+        android:layout_below="@+id/spinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
