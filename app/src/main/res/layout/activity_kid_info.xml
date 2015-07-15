@@ -55,15 +55,17 @@
         android:layout_marginTop="10sp"
         android:visibility="invisible" />
 
-    <RadioButton
+    <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Active"
         android:textSize="15sp"
         android:id="@+id/rbActive_KidInfo"
-        android:layout_alignTop="@+id/tvId_KidInfo"
-        android:layout_alignRight="@+id/lvCoins_KidInfo"
-        android:layout_alignEnd="@+id/lvCoins_KidInfo"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:enabled="true"
+        android:layout_above="@+id/lvCoins_KidInfo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 
 </RelativeLayout>

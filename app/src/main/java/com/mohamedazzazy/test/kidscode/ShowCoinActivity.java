@@ -33,11 +33,11 @@ public class ShowCoinActivity extends Activity {
     }
 
     public void displayCoinsFromAtt() {
-        disp.setAdapter(DB.getAdapterOfKidsInAtt(Kid.SHOWCASE_NAME_AND_COINS, false));
+        disp.setAdapter(DB.getAdapterOfKidsInAtt(Kid.SHOWCASE_NAME_COINS, false));
     }
 
     public void displayCoinsFromFull() {
-        disp.setAdapter(DB.getAdapterOfKidsInFull(Kid.SHOWCASE_NAME_AND_COINS, false));
+        disp.setAdapter(DB.getAdapterOfKidsInFull(Kid.SHOWCASE_ACTIVE_NAME_COINS));
     }
 
     public void dec() {

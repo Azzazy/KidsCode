@@ -33,7 +33,7 @@ import java.util.Date;
  * Created by Mohamed Azzazy on 27/06/2015 within KidsCode
  */
 public class DB extends Service {
-    public static boolean IS_OPENED_BEFORE, DB_IS_READ = false,NEED_REWRITE=false;
+    public static boolean IS_OPENED_BEFORE, NEED_REWRITE = false;
     volatile boolean CONT_THREAD = true;
     static boolean READ_KIDS_ONLY = true, READ_ALL = false;
     static public ArrayList<Kid> attList;
@@ -43,15 +43,22 @@ public class DB extends Service {
     static int DB_VERSION = 1, END_TIME;
     public static Activity a;
 
-    public static void rewriteFullDB(){
-        if(NEED_REWRITE){
+    public static void rewriteFullDB() {
+        if (NEED_REWRITE) {
+            data = "";
             addFullKidsToData();
             addFullSessionsToData();
             writeInternalFile(Context.MODE_PRIVATE);
-            DB.DB_IS_READ = true;
-            NEED_REWRITE=false;
+            NEED_REWRITE = false;
         }
     }
+
+    public static void addNewKidFromMain(Kid k) {
+        readFullDatabase();
+        fullList.add(k);
+        rewriteFullDB();
+    }
+
     public static int arrangeDataBase(Context a) {
         readFullDatabase();
         data = "";
@@ -59,11 +66,10 @@ public class DB extends Service {
         addFullKidsToData();
         addFullSessionsToData();
         writeInternalFile(Context.MODE_PRIVATE);
-        DB.DB_IS_READ = true;
         return n;
     }
 
-    public static void appendData() {
+    public static void appendDataAfterSession() {
         data = "";
         addNewKidsToData();
         addAttToData();
@@ -96,7 +102,7 @@ public class DB extends Service {
                 attList.add(new Kid(kidTermStr[0].substring(1), kidTermStr[1], kidTermStr[2]));
             }
         }
-        data = null;
+        data = "";
         return (attList.size() > 0);
     }
 
@@ -113,7 +119,7 @@ public class DB extends Service {
                 if (dataPartStr.length() == 0) continue;
                 if (isKid(dataPartStr.charAt(0))) {
                     String kidTermStr[] = dataPartStr.split("@");
-                    fullList.add(new Kid(kidTermStr[0].substring(1), kidTermStr[1], kidTermStr[2], Kid.getAgeGroupfromChar(kidTermStr[0].charAt(0))));
+                    fullList.add(new Kid(kidTermStr[0].substring(1), kidTermStr[1], kidTermStr[2], kidTermStr[0].charAt(0)));
                 } else {
                     int idIndex = findByIdInFull(dataPartStr.substring(0, dataPartStr.indexOf('#')));
                     if (idIndex == -1) continue;
@@ -127,7 +133,7 @@ public class DB extends Service {
                 }
             }
         }
-        data = null;
+        data = "";
         return (fullList.size() > 0);
     }
 
@@ -157,16 +163,9 @@ public class DB extends Service {
     }
 
 
-    public static ArrayAdapter<String> getAdapterOfKidsInFull(int SHOWCASE,
-                                                              boolean FIRST_NULL) {
+    public static ArrayAdapter<String> getAdapterOfKidsInFull(int SHOWCASE) {
         int i = 0;
-        String k[];
-        if (FIRST_NULL) {
-            k = new String[DB.fullList.size() + 1];
-            k[i++] = "Chose a kid";
-        } else {
-            k = new String[DB.fullList.size()];
-        }
+        String k[] = new String[DB.fullList.size()];
         for (Kid x : DB.fullList) {
             k[i++] = x.getInfo(SHOWCASE);
         }
@@ -215,11 +214,12 @@ public class DB extends Service {
             fos = a.openFileOutput(INTERNAL_FILE_NAME, MODE);
             fos.write(data.getBytes());
             fos.close();
+            data = "";
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
-        return true;
     }
 
     static boolean writeExternalFile() {
@@ -229,6 +229,7 @@ public class DB extends Service {
             out.flush();
             out.close();
             MediaScannerConnection.scanFile(a, new String[]{EXTERNAL_FILE_PATH}, null, null);
+            data = "";
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -298,6 +299,7 @@ public class DB extends Service {
             data += k.getKidForDB();
         }
         newKidsList.clear();
+        newKidsList = null;
 
         return true;
     }

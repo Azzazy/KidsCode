@@ -23,10 +23,6 @@ public class ReadFullDB extends Service  {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        new Thread(
-                new Runnable() {
-                    @Override
-                    public void run() {
                         int mId = 7;
                         NotificationCompat.Builder mBuilder =
                                 new NotificationCompat.Builder(ReadFullDB.this)
@@ -50,9 +46,6 @@ public class ReadFullDB extends Service  {
                         }
 
                         stopSelf();
-                    }
-                }
-        ).start();
         return super.onStartCommand(intent, flags, startId);
     }
 }

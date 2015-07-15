@@ -19,10 +19,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".StatActivity"
-            android:label="@string/title_activity_stat" >
-        </activity>
-        <activity
             android:name=".NewKidActivity"
             android:label="@string/title_activity_new_kid" >
         </activity>

@@ -1,5 +1,6 @@
 package com.mohamedazzazy.test.kidscode;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -10,9 +11,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
+import com.mohamedazzazy.test.kidscode.java.Kid;
+import com.mohamedazzazy.test.kidscode.java.Rearrange;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    //TODO : Check rearrange
+
     Intent next;
     int i = 1, a = 1, e = 1;
 
@@ -35,24 +38,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.bStart).setOnClickListener(this);
     }
 
+    public static char getAgeChar(Context a) {
+        return PreferenceManager.getDefaultSharedPreferences(a).getString("age_group", "O").charAt(0);
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bStat:
-                if (!DB.DB_IS_READ) {
+                if (Rearrange.IN_ACTION) break;
+                if (DB.fullList == null) {
                     DB.readFullDBInService(this);
-                    DB.DB_IS_READ =true;
                 }
-                next = new Intent(getApplicationContext(), StatActivity.class);
+                next = new Intent(getApplicationContext(), ShowCoinActivity.class);
+                next.putExtra("From_Actions_Activity", false);
                 startActivity(next);
                 break;
             case R.id.bStart:
-                char ageChar = PreferenceManager.getDefaultSharedPreferences(this).getString("age_group", "O").charAt(0);
+                if (Rearrange.IN_ACTION) break;
                 boolean USE_QR = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("use_qr", false);
-
-                if (DB.getAttDataBase(ageChar)) {
-                    DB.DB_IS_READ = false;
+                if (DB.getAttDataBase(getAgeChar(this))) {
+                    DB.fullList = null;
                     if (USE_QR) {
                         // TODO : Start QR Activity
                     } else {
@@ -110,16 +116,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.action_rearrange:
-//                i = e = 1;
-//                if (a++ == 3) {
-//                    a = 1;
-//                    Intent theServiceTntent = new Intent(getApplicationContext(), Rearrange.class);
-//                    startService(theServiceTntent);
-//                } else {
-//                    Toast.makeText(this, "need " + (4 - a) + " more pressing to do that", Toast.LENGTH_SHORT).show();
-//                }
-                Toast.makeText(this,"Oops, this function is not working proberly!",Toast.LENGTH_SHORT).show();
+                i = e = 1;
+                if (a++ == 3) {
+                    a = 1;
+                    next = new Intent(getApplicationContext(), Rearrange.class);
+                    startService(next);
+                } else {
+                    Toast.makeText(this, "need " + (4 - a) + " more pressing to do that", Toast.LENGTH_SHORT).show();
+                }
+//                Toast.makeText(this,"Oops, this function is not working proberly!",Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.action_addKid_main:
+                next = new Intent(getApplicationContext(), NewKidActivity.class);
+                next.putExtra("From_Actions_Activity", false);
+                startActivity(next);
             default:
                 return super.onOptionsItemSelected(item);
         }

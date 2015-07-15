@@ -1,8 +1,8 @@
 package com.mohamedazzazy.test.kidscode;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
 
-public class ActionsActivity extends Activity implements View.OnClickListener {
+public class ActionsActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     @Override
@@ -37,7 +37,7 @@ public class ActionsActivity extends Activity implements View.OnClickListener {
         i = new Intent(getApplicationContext(), DB.class);
         stopService(i);
         DB.IS_OPENED_BEFORE = false;
-        DB.appendData();
+        DB.appendDataAfterSession();
         finish();
         i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
@@ -53,7 +53,7 @@ public class ActionsActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.bShowCoin:
                 i = new Intent(getApplicationContext(), ShowCoinActivity.class);
-                i.putExtra("From_Actions_Activity",true);
+                i.putExtra("From_Actions_Activity", true);
                 startActivity(i);
                 break;
             case R.id.bEnd:
@@ -75,12 +75,16 @@ public class ActionsActivity extends Activity implements View.OnClickListener {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        Intent i;
+        switch (id) {
+            case R.id.action_addKid_actions:
+                i = new Intent(getApplicationContext(), NewKidActivity.class);
+                i.putExtra("From_Actions_Activity", true);
+                startActivity(i);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 }

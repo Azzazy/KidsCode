@@ -13,16 +13,17 @@ import java.util.Date;
 public class Kid {
 
     static public final int SHOWCASE_NAME_ONLY = 1;
-    static public final int SHOWCASE_NAME_AND_COINS = 2;
+    static public final int SHOWCASE_NAME_COINS = 2;
+    static public final int SHOWCASE_ACTIVE_NAME_COINS = 3;
 
     public String id;
     public String name;
     public String mobile;
     public Session thisSession;
-   public boolean active;
+    public boolean active;
     ArrayList<Session> sessions;
 
-    public enum AgeGroup {Old, Middle, Little }
+    public enum AgeGroup {Old, Middle, Little}
 
     AgeGroup ageGroup;
 
@@ -33,9 +34,9 @@ public class Kid {
         this.thisSession = new Session(0, new Date());
     }
 
-    public Kid(String id, String name, String mobile, AgeGroup ageGroup) {
-        this.active = isActive(ageGroup);
-        this.ageGroup = ageGroup;
+    public Kid(String id, String name, String mobile, char ageChar) {
+        this.active = isActive(ageChar);
+        this.ageGroup = getAgeGroup(ageChar);
         this.name = name;
         this.id = id;
         this.mobile = (mobile.equals("un")) ? null : mobile;
@@ -45,17 +46,17 @@ public class Kid {
 
     public String getKidForDB() {
         String s;
-        if(!active){
-          s = '\t'+ ageGroup.toString().toLowerCase().charAt(0) +"";
-        }else{
-            s = '\t'+ ageGroup.toString().charAt(0) +"";
+        if (!active) {
+            s = "\t" + ageGroup.toString().toLowerCase().charAt(0) + "";
+        } else {
+            s = "\t" + ageGroup.toString().charAt(0) + "";
         }
 
         s += id + "@" + name + "@" + ((mobile == null) ? "un" : mobile);
         return s;
     }
 
-    public static AgeGroup getAgeGroupfromChar(char c) {
+   public static AgeGroup getAgeGroup(char c) {
         switch (c) {
             case 'O':
             case 'o':
@@ -80,16 +81,19 @@ public class Kid {
 
     public String getInfo(int SHOWMODE) {
         switch (SHOWMODE) {
-            case Kid.SHOWCASE_NAME_AND_COINS:
-                return this.name + "   " +  this.getTotalCoins();
+            case Kid.SHOWCASE_NAME_COINS:
+                return name + "   " + getTotalCoins();
             case Kid.SHOWCASE_NAME_ONLY:
-                return this.name;
+                return name;
+            case Kid.SHOWCASE_ACTIVE_NAME_COINS:
+                return (active ? "" : "~") + name + "   " + getTotalCoins();
             default:
-                return"";
+                return "";
         }
     }
-    static boolean isActive(AgeGroup c) {
-        switch (c.toString().charAt(0)) {
+
+    static boolean isActive(char c) {
+        switch (c) {
             case 'O':
             case 'M':
             case 'L':

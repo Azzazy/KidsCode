@@ -6,7 +6,83 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.mohamedazzazy.test.kidscode.NewKidActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/etNme_NewKid"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="Kid Name" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/etMobile_NewKid"
+        android:layout_below="@+id/etNme_NewKid"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="Mobile Phone" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/etId_NewKid"
+        android:layout_below="@+id/etMobile_NewKid"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="Kid ID" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etId_NewKid"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:checkedButton="@+id/rbOld_NewKid"
+        android:orientation="horizontal"
+        android:id="@+id/rgAgeGroup_NewKid"
+        android:gravity="center"
+        android:visibility="invisible">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Old"
+            android:id="@+id/rbOld_NewKid"
+            android:gravity="bottom" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Middle"
+            android:id="@+id/rbMiddle_NewKid"
+            android:gravity="bottom" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Little"
+            android:id="@+id/rbLittle_NewKid"
+            android:layout_alignTop="@+id/rgAgeGroup_NewKid"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="bottom" />
+
+    </RadioGroup>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:id="@+id/bAdd_NewKid"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

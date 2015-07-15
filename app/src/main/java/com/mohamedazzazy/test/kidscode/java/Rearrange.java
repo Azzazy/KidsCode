@@ -15,6 +15,7 @@ import com.mohamedazzazy.test.kidscode.R;
  * within project KidsCode.
  */
 public class Rearrange extends Service {
+   public static volatile boolean IN_ACTION = false;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -28,6 +29,7 @@ public class Rearrange extends Service {
                 new Runnable() {
                     @Override
                     public void run() {
+                        IN_ACTION = true;
                         int mId = 6;
                         NotificationCompat.Builder mBuilder =
                                 new NotificationCompat.Builder(Rearrange.this)
@@ -55,6 +57,7 @@ public class Rearrange extends Service {
                                 .setAutoCancel(true);
                         mNotificationManager.notify(mId, mBuilder.build());
                         stopSelf();
+                        IN_ACTION =false;
                     }
                 }
         ).start();

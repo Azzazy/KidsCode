@@ -38,15 +38,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Done"
-        android:id="@+id/bDoneCoins"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,44 +47,11 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="43sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="0"
-        android:id="@+id/tvCoinCounter"
-        android:textSize="30sp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="/\\"
-        android:id="@+id/bPlus"
-        android:textSize="30sp"
-        android:layout_alignTop="@+id/tvCoinCounter"
-        android:layout_toRightOf="@+id/bDoneCoins"
-        android:layout_toEndOf="@+id/bDoneCoins" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="\\/"
-        android:id="@+id/bMinus"
-        android:textSize="30sp"
-        android:layout_alignTop="@+id/tvCoinCounter"
-        android:layout_toLeftOf="@+id/bDoneCoins"
-        android:layout_toStartOf="@+id/bDoneCoins" />
-
     <NumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/npCoinCounter_Coins"
-        android:layout_below="@+id/spinner"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

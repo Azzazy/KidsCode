@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
@@ -57,7 +58,7 @@ public class KidInfoActivity extends Activity {
             list = (ListView) findViewById(R.id.lvCoins_KidInfo);
             list.setVisibility(View.VISIBLE);
             list.setAdapter(DB.getAdapterOfSessions(index));
-            RadioButton rb = (RadioButton) findViewById(R.id.rbActive_KidInfo);
+            Switch rb = (Switch) findViewById(R.id.rbActive_KidInfo);
             rb.setVisibility(View.VISIBLE);
             rb.setChecked(k.active);
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -80,9 +81,7 @@ public class KidInfoActivity extends Activity {
     @Override
     public void onBackPressed() {
         finish();
-//        Intent intent = new Intent(this, ShowCoinActivity.class);
-//        intent.putExtra("From_Actions_Activity", FROM_ACTIONS_ACTIVITY);
-//        startActivity(intent);
+        super.onBackPressed();
     }
 
     @Override
