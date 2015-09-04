@@ -55,6 +55,8 @@ public class KidInfoActivity extends Activity {
             });
         }
         if (!FROM_ACTIONS_ACTIVITY) {
+            ((TextView) findViewById(R.id.tvAgeGroup_KidInfo)).setText(k.getAgeGroup());
+            findViewById(R.id.tvAgeGroup_KidInfo).setVisibility(View.VISIBLE);
             list = (ListView) findViewById(R.id.lvCoins_KidInfo);
             list.setVisibility(View.VISIBLE);
             list.setAdapter(DB.getAdapterOfSessions(index));
@@ -64,9 +66,11 @@ public class KidInfoActivity extends Activity {
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    k.active=isChecked;
-                    DB.fullList.set(index,k);
-                    DB.NEED_REWRITE=true;
+                    k.active = isChecked;
+                    DB.fullList.set(index, k);
+                    DB.NEED_REWRITE = true;
+                    DB.CALL_COUNTER=0;
+                    DB.updateCallCounter();
                 }
             });
         }

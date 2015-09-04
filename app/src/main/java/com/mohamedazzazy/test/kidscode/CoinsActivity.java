@@ -2,6 +2,7 @@ package com.mohamedazzazy.test.kidscode;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +17,7 @@ import com.mohamedazzazy.test.kidscode.java.DB;
 import com.mohamedazzazy.test.kidscode.java.Kid;
 import com.mohamedazzazy.test.kidscode.java.Session;
 
-public class CoinsActivity extends Activity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class CoinsActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     Spinner spinner;
     TextView display;
@@ -46,7 +47,7 @@ public class CoinsActivity extends Activity implements View.OnClickListener, Ada
         findViewById(R.id.bNegative).setOnClickListener(this);
         display = (TextView) findViewById(R.id.tvLogCoin);
         spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setAdapter(DB.getAdapterOfKidsInAtt(Kid.SHOWCASE_NAME_ONLY, true));
+        spinner.setAdapter(DB.getAdapterOfKidsInAtt(Kid.SHOWCASE.NAME_ONLY, true));
         spinner.setOnItemSelectedListener(this);
         NumberPicker np = (NumberPicker) findViewById(R.id.npCoinCounter_Coins);
         np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {

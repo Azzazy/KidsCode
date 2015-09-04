@@ -1,8 +1,8 @@
 package com.mohamedazzazy.test.kidscode;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.mohamedazzazy.test.kidscode.java.DB;
 import com.mohamedazzazy.test.kidscode.java.Kid;
 
-public class ShowCoinActivity extends Activity {
+public class ShowCoinActivity extends AppCompatActivity {
     ListView disp;
     boolean FROM_ACTIONS_ACTIVITY = true;
 
@@ -33,11 +33,16 @@ public class ShowCoinActivity extends Activity {
     }
 
     public void displayCoinsFromAtt() {
-        disp.setAdapter(DB.getAdapterOfKidsInAtt(Kid.SHOWCASE_NAME_COINS, false));
+        disp.setAdapter(DB.getAdapterOfKidsInAtt(Kid.SHOWCASE.NAME_COINS, false));
     }
 
     public void displayCoinsFromFull() {
-        disp.setAdapter(DB.getAdapterOfKidsInFull(Kid.SHOWCASE_ACTIVE_NAME_COINS));
+        if (DB.AGE_CHAR == 'A') {
+            disp.setAdapter(DB.getAdapterOfKidsInFull(Kid.SHOWCASE.AGE_ACTIVE_NAME_COINS));
+
+        } else {
+            disp.setAdapter(DB.getAdapterOfKidsInFull(Kid.SHOWCASE.ACTIVE_NAME_COINS));
+        }
     }
 
     public void dec() {
@@ -56,7 +61,11 @@ public class ShowCoinActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_show_coin, menu);
+        if (FROM_ACTIONS_ACTIVITY)
+            getMenuInflater().inflate(R.menu.menu_normal, menu);
+        else
+            getMenuInflater().inflate(R.menu.menu_show_coin, menu);
+
         return true;
     }
 
@@ -66,13 +75,16 @@ public class ShowCoinActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_call_showcoin:
+                Intent i = new Intent(this, CallActivity.class);
+                startActivity(i);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override

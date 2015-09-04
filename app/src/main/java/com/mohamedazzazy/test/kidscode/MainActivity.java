@@ -1,27 +1,40 @@
 package com.mohamedazzazy.test.kidscode;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
-import com.mohamedazzazy.test.kidscode.java.Kid;
 import com.mohamedazzazy.test.kidscode.java.Rearrange;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    //done on back pressed check
+    //done age group in stat
+    // DONE new kid in main
+    //done rearrange after new kid
+//done checking and completing the new feature of ALL
+
+    /*  done add calling feature
+    done adding all option in age chooser
+    done change attlisttaker in DB to suit it
+    done stat show the specified age only
+    done state offer call to all kids shown
+    done reading fulllist read only the wnated age
+    done fulllist read after changing the agegroup
+        by making onSharedPrefrencsChanged
+     */
 
     Intent next;
-    int i = 1, a = 1, e = 1;
+    int i = 1, a = 1, e = 1,f=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        DB.a = this;
         if (DB.IS_OPENED_BEFORE) {
             finish();
             next = new Intent(getApplicationContext(), ActionsActivity.class);
@@ -34,19 +47,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void dec() {
+        DB.mainActivity = this;
         findViewById(R.id.bStat).setOnClickListener(this);
         findViewById(R.id.bStart).setOnClickListener(this);
-    }
+        DB.MAX_ID = getSharedPreferences(DB.PREFS_FILE, MODE_PRIVATE).getInt("max_id", 32);
+        Log.e("TEST_VALUES", "MAX_ID Out : " + DB.MAX_ID);        //test
+        DB.AGE_CHAR = PreferenceManager.getDefaultSharedPreferences(this).getString("age_group", "A").charAt(0);
 
-    public static char getAgeChar(Context a) {
-        return PreferenceManager.getDefaultSharedPreferences(a).getString("age_group", "O").charAt(0);
     }
 
     @Override
     public void onClick(View v) {
+        if (Rearrange.IN_ACTION) return;
         switch (v.getId()) {
             case R.id.bStat:
-                if (Rearrange.IN_ACTION) break;
                 if (DB.fullList == null) {
                     DB.readFullDBInService(this);
                 }
@@ -55,12 +69,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(next);
                 break;
             case R.id.bStart:
-                if (Rearrange.IN_ACTION) break;
                 boolean USE_QR = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("use_qr", false);
-                if (DB.getAttDataBase(getAgeChar(this))) {
+                if (DB.readAttDataBase()) {
                     DB.fullList = null;
                     if (USE_QR) {
-                        // TODO : Start QR Activity
+                        // todo : Start QR Activity
                     } else {
                         finish();
                         next = new Intent(getApplicationContext(), NormalAttActivity.class);
@@ -95,36 +108,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.action_import:
                 e = a = 1;
-                if (i++ == 3) {
+                if (i++ == f) {
                     i = 1;
                     String DEFAULT_PATH = "/storage/emulated/0/Download/KidsCode/MainDB.txt";
                     DB.EXTERNAL_FILE_PATH = PreferenceManager.getDefaultSharedPreferences(this).getString("external_file_path", DEFAULT_PATH);
                     DB.importDataBase();
                 } else {
-                    Toast.makeText(this, "need " + (4 - i) + " more pressing to do that", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "need " + (f+1 - i) + " more pressing to do that", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.action_export:
                 i = a = 1;
-                if (e++ == 3) {
+                if (e++ == f) {
                     e = 1;
                     String DEFAULT_PATH = "/storage/emulated/0/Download/KidsCode/MainDB.txt";
                     DB.EXTERNAL_FILE_PATH = PreferenceManager.getDefaultSharedPreferences(this).getString("external_file_path", DEFAULT_PATH);
                     DB.exportDataBase();
                 } else {
-                    Toast.makeText(this, "need " + (4 - e) + " more pressing to do that", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "need " + (f+1 - e) + " more pressing to do that", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.action_rearrange:
                 i = e = 1;
-                if (a++ == 3) {
+                if (a++ == f) {
                     a = 1;
                     next = new Intent(getApplicationContext(), Rearrange.class);
                     startService(next);
                 } else {
-                    Toast.makeText(this, "need " + (4 - a) + " more pressing to do that", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "need " + (f+1 - a) + " more pressing to do that", Toast.LENGTH_SHORT).show();
                 }
-//                Toast.makeText(this,"Oops, this function is not working proberly!",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_addKid_main:
                 next = new Intent(getApplicationContext(), NewKidActivity.class);

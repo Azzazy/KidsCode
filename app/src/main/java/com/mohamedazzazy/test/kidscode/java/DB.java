@@ -7,15 +7,18 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaScannerConnection;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.mohamedazzazy.test.kidscode.ActionsActivity;
+import com.mohamedazzazy.test.kidscode.MainActivity;
 import com.mohamedazzazy.test.kidscode.R;
 
 import java.io.BufferedReader;
@@ -36,13 +39,14 @@ public class DB extends Service {
     public static boolean IS_OPENED_BEFORE, NEED_REWRITE = false;
     volatile boolean CONT_THREAD = true;
     static boolean READ_KIDS_ONLY = true, READ_ALL = false;
-    static public ArrayList<Kid> attList;
-    static public ArrayList<Kid> newKidsList, fullList;
-    public static String EXTERNAL_FILE_PATH;
+    static public ArrayList<Kid> newKidsList, fullList, attList, theList;
+    public static String EXTERNAL_FILE_PATH, PREFS_FILE = "ThePrefs";
     static String INTERNAL_FILE_NAME = "MainDB.txt", data, END_TIME_FIXED;
     static int DB_VERSION = 1, END_TIME;
-    public static Activity a;
-
+    public static int MAX_ID, ALL = 1, EXACT = 2,CALL_COUNTER;
+    public static char AGE_CHAR;
+    public static MainActivity mainActivity;
+public static boolean CALL_ACTIVE=true;
     public static void rewriteFullDB() {
         if (NEED_REWRITE) {
             data = "";
@@ -50,39 +54,71 @@ public class DB extends Service {
             addFullSessionsToData();
             writeInternalFile(Context.MODE_PRIVATE);
             NEED_REWRITE = false;
+            fullList = null;
         }
     }
 
     public static void addNewKidFromMain(Kid k) {
-        readFullDatabase();
+        readFullDatabase(ALL);
         fullList.add(k);
+        NEED_REWRITE = true;
         rewriteFullDB();
     }
 
-    public static int arrangeDataBase(Context a) {
-        readFullDatabase();
+    public static int arrangeDataBase() {
+        readFullDatabase(ALL);
         data = "";
         int n = fullList.size();
         addFullKidsToData();
         addFullSessionsToData();
         writeInternalFile(Context.MODE_PRIVATE);
+        fullList = null;
         return n;
     }
 
+    public static void updateMaxID() {
+        SharedPreferences.Editor editor = mainActivity.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE).edit();
+        editor.putInt("max_id", DB.MAX_ID);
+        Log.e("TEST_VALUES", "MAX_ID In : " + DB.MAX_ID);        //test
+        editor.apply();
+    }
+    public static void updateCallCounter() {
+        SharedPreferences.Editor editor = mainActivity.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE).edit();
+        editor.putInt("call_count", DB.CALL_COUNTER);
+        Log.e("TEST_VALUES", "CALL_COUNTER In : " + DB.CALL_COUNTER);        //test
+        editor.apply();
+    }
+public static void getCallCounter(){
+    CALL_COUNTER = mainActivity.getSharedPreferences(DB.PREFS_FILE, MODE_PRIVATE).getInt("call_count", 0);
+
+}
+
+    public static void updateCallActive() {
+        SharedPreferences.Editor editor = mainActivity.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE).edit();
+        editor.putBoolean("call_active", DB.CALL_ACTIVE);
+        Log.e("TEST_VALUES", "CALL_ACTIVE In : " + DB.CALL_COUNTER);        //test
+        editor.apply();
+    }
+    public static void getCallActive(){
+        CALL_ACTIVE = mainActivity.getSharedPreferences(DB.PREFS_FILE, MODE_PRIVATE).getBoolean("call_active", true);
+
+    }
     public static void appendDataAfterSession() {
+
         data = "";
-        addNewKidsToData();
+        boolean flag = addNewKidsToData();
         addAttToData();
         writeInternalFile(Context.MODE_APPEND);
+        if (flag) arrangeDataBase();
     }
 
     public static void importDataBase() {
         if (readExternalFile() && isRealDataBase()) {
             removeHeader();
             writeInternalFile(Context.MODE_PRIVATE);
-            Toast.makeText(a, "Import finished", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mainActivity, "Import finished", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(a, "File is missing or not a valid one", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mainActivity, "File is missing or not a valid one", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -90,14 +126,15 @@ public class DB extends Service {
         readInternalFile(READ_ALL);
         addHeader();
         writeExternalFile();
-        Toast.makeText(a, "Export finished", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mainActivity, "Export finished", Toast.LENGTH_SHORT).show();
     }
 
-    public static boolean getAttDataBase(char ageChar) {
+
+    public static boolean readAttDataBase() {
         if (!readInternalFile(READ_KIDS_ONLY)) return false;
         attList = new ArrayList<>();
         for (String kidStr : data.split("\t")) {
-            if (kidStr.charAt(0) == ageChar) {
+            if (AGE_CHAR == 'A' || kidStr.charAt(0) == AGE_CHAR) {
                 String kidTermStr[] = kidStr.split("@");
                 attList.add(new Kid(kidTermStr[0].substring(1), kidTermStr[1], kidTermStr[2]));
             }
@@ -111,25 +148,31 @@ public class DB extends Service {
         a.startService(theServiceTntent);
     }
 
-    public static boolean readFullDatabase() {
+    public static boolean readFullDatabase(int MODE) {
         if (!readInternalFile(READ_ALL)) return false;
+        Log.e("TEST", "readFullDatabase ");     //test
+        Log.e("TEST", "data : " + data);        //test
+
         fullList = new ArrayList<>();
         for (String dataParts : data.split("\n")) {
             for (String dataPartStr : dataParts.split("\t")) {
                 if (dataPartStr.length() == 0) continue;
                 if (isKid(dataPartStr.charAt(0))) {
-                    String kidTermStr[] = dataPartStr.split("@");
-                    fullList.add(new Kid(kidTermStr[0].substring(1), kidTermStr[1], kidTermStr[2], kidTermStr[0].charAt(0)));
+                    if (MODE == ALL || (MODE == EXACT && (AGE_CHAR == 'A' || dataPartStr.toUpperCase().charAt(0) == AGE_CHAR))) {
+                        String kidTermStr[] = dataPartStr.split("@");
+                        fullList.add(new Kid(kidTermStr[0].substring(1), kidTermStr[1], kidTermStr[2], kidTermStr[0].charAt(0)));
+                    }
                 } else {
-                    int idIndex = findByIdInFull(dataPartStr.substring(0, dataPartStr.indexOf('#')));
+                    Log.e("TEST", "dataPartStr : " + dataPartStr);        //test
+                    int idIndex = findByIdInFull(idFrom(dataPartStr));
                     if (idIndex == -1) continue;
-                    Kid fk = fullList.get(idIndex);
+                    Kid k = fullList.get(idIndex);
                     dataPartStr = dataPartStr.substring(dataPartStr.indexOf('#') + 1);
                     for (String onetSesStr : dataPartStr.split("#")) {
                         String sesTermStr[] = onetSesStr.split("@");
-                        fk.sessions.add(new Session(sesTermStr[0], sesTermStr[1]));
+                        k.sessions.add(new Session(sesTermStr[0], sesTermStr[1]));
                     }
-                    fullList.set(idIndex, fk);
+                    fullList.set(idIndex, k);
                 }
             }
         }
@@ -145,7 +188,12 @@ public class DB extends Service {
         return -1;
     }
 
-    public static ArrayAdapter<String> getAdapterOfKidsInAtt(int SHOWCASE,
+
+    private static String idFrom(String s) {// to get id from a session record
+        return s.substring(0, s.indexOf('#'));
+    }
+
+    public static ArrayAdapter<String> getAdapterOfKidsInAtt(Kid.SHOWCASE mode,
                                                              boolean FIRST_NULL) {
         int i = 0;
         String k[];
@@ -156,20 +204,20 @@ public class DB extends Service {
             k = new String[DB.attList.size()];
         }
         for (Kid x : DB.attList) {
-            k[i++] = x.getInfo(SHOWCASE);
+            k[i++] = x.getInfo(mode);
         }
-        return new ArrayAdapter<>(a,
+        return new ArrayAdapter<>(mainActivity,
                 android.R.layout.simple_list_item_1, k);
     }
 
 
-    public static ArrayAdapter<String> getAdapterOfKidsInFull(int SHOWCASE) {
+    public static ArrayAdapter<String> getAdapterOfKidsInFull(Kid.SHOWCASE mode) {
         int i = 0;
         String k[] = new String[DB.fullList.size()];
         for (Kid x : DB.fullList) {
-            k[i++] = x.getInfo(SHOWCASE);
+            k[i++] = x.getInfo(mode);
         }
-        return new ArrayAdapter<>(a,
+        return new ArrayAdapter<>(mainActivity,
                 android.R.layout.simple_list_item_1, k);
     }
 
@@ -181,11 +229,11 @@ public class DB extends Service {
         for (Session x : s) {
             k[i++] = x.getSession();
         }
-        return new ArrayAdapter<>(a,
+        return new ArrayAdapter<>(mainActivity,
                 android.R.layout.simple_list_item_1, k);
     }
 
-    static boolean isKid(char c) {
+    private static boolean isKid(char c) {
         switch (c) {
             case 'O':
             case 'M':
@@ -208,10 +256,10 @@ public class DB extends Service {
         return -1;
     }
 
-    static boolean writeInternalFile(int MODE) {
+    static boolean writeInternalFile(int mode) {
         try {
             FileOutputStream fos;
-            fos = a.openFileOutput(INTERNAL_FILE_NAME, MODE);
+            fos = mainActivity.openFileOutput(INTERNAL_FILE_NAME, mode);
             fos.write(data.getBytes());
             fos.close();
             data = "";
@@ -228,7 +276,7 @@ public class DB extends Service {
             out.write(data);
             out.flush();
             out.close();
-            MediaScannerConnection.scanFile(a, new String[]{EXTERNAL_FILE_PATH}, null, null);
+            MediaScannerConnection.scanFile(mainActivity, new String[]{EXTERNAL_FILE_PATH}, null, null);
             data = "";
             return true;
         } catch (Exception e) {
@@ -254,19 +302,21 @@ public class DB extends Service {
         }
         data = rawText.toString();
         data = data.substring(0, data.length() - 1);
+        Log.e("TEST_READ", "readExternalFile :" + data);            //test
         return true;
     }
 
     public static boolean readInternalFile(boolean READ_CONDITION) {
         data = "";
         try {
-            FileInputStream fis = a.openFileInput(INTERNAL_FILE_NAME);
+            FileInputStream fis = mainActivity.openFileInput(INTERNAL_FILE_NAME);
             int c;
             while ((c = fis.read()) != -1) {
                 if (c == '\n' && READ_CONDITION) break;
                 data += (char) c;
             }
             fis.close();
+            Log.e("TEST_READ", "readInternalFile :" + data);            //test
             return true;
         } catch (IOException e) {
             e.printStackTrace();

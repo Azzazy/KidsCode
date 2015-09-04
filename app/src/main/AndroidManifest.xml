@@ -38,22 +38,19 @@
         </activity>
         <activity
             android:name=".ShowCoinActivity"
-            android:label="@string/title_activity_show_coin"
-             >
+            android:label="@string/title_activity_show_coin" >
         </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings_activity"
             android:noHistory="true" >
         </activity>
-
-
-
         <activity
             android:name=".KidInfoActivity"
             android:label="@string/title_activity_kid_info"
-            android:noHistory="true">
+            android:noHistory="true" >
         </activity>
+
         <service
             android:name=".java.DB"
             android:enabled="true"
@@ -69,6 +66,11 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".CallActivity"
+            android:label="@string/title_activity_call_" >
+        </activity>
     </application>
 
 </manifest>

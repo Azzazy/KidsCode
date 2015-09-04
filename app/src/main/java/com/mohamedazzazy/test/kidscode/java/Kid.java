@@ -12,16 +12,14 @@ import java.util.Date;
  */
 public class Kid {
 
-    static public final int SHOWCASE_NAME_ONLY = 1;
-    static public final int SHOWCASE_NAME_COINS = 2;
-    static public final int SHOWCASE_ACTIVE_NAME_COINS = 3;
+    public enum SHOWCASE {NAME_ONLY, NAME_COINS, ACTIVE_NAME_COINS, AGE_ACTIVE_NAME_COINS}
 
     public String id;
     public String name;
     public String mobile;
     public Session thisSession;
     public boolean active;
-    ArrayList<Session> sessions;
+    public ArrayList<Session> sessions;
 
     public enum AgeGroup {Old, Middle, Little}
 
@@ -36,7 +34,7 @@ public class Kid {
 
     public Kid(String id, String name, String mobile, char ageChar) {
         this.active = isActive(ageChar);
-        this.ageGroup = getAgeGroup(ageChar);
+        this.ageGroup = getAgeGroupFromChar(ageChar);
         this.name = name;
         this.id = id;
         this.mobile = (mobile.equals("un")) ? null : mobile;
@@ -56,7 +54,11 @@ public class Kid {
         return s;
     }
 
-   public static AgeGroup getAgeGroup(char c) {
+    public String getAgeGroup() {
+        return ageGroup.toString();
+    }
+
+    public static AgeGroup getAgeGroupFromChar(char c) {
         switch (c) {
             case 'O':
             case 'o':
@@ -79,14 +81,16 @@ public class Kid {
     }
 
 
-    public String getInfo(int SHOWMODE) {
-        switch (SHOWMODE) {
-            case Kid.SHOWCASE_NAME_COINS:
+    public String getInfo(SHOWCASE a) {
+        switch (a) {
+            case NAME_COINS:
                 return name + "   " + getTotalCoins();
-            case Kid.SHOWCASE_NAME_ONLY:
+            case NAME_ONLY:
                 return name;
-            case Kid.SHOWCASE_ACTIVE_NAME_COINS:
+            case ACTIVE_NAME_COINS:
                 return (active ? "" : "~") + name + "   " + getTotalCoins();
+            case AGE_ACTIVE_NAME_COINS:
+                return ageGroup.toString().charAt(0) + (active ? " " : "~") + name + "   " + getTotalCoins();
             default:
                 return "";
         }

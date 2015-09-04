@@ -36,7 +36,7 @@ public class ReadFullDB extends Service  {
                         NotificationManager mNotificationManager =
                                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-                        if (!DB.readFullDatabase()) {
+                        if (!DB.readFullDatabase(DB.EXACT)) {
                             stopForeground(true);
                             mBuilder.setContentTitle("Error!")
                                     .setContentText("Problem in reading the DataBase")

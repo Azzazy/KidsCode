@@ -3,6 +3,7 @@ package com.mohamedazzazy.test.kidscode;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
 
-public class NormalAttActivity extends Activity implements View.OnClickListener {
+public class NormalAttActivity extends AppCompatActivity implements View.OnClickListener {
     TextView display;
     int counter;
 
@@ -43,7 +44,7 @@ public class NormalAttActivity extends Activity implements View.OnClickListener 
     public void displayNext() {
         if (counter < DB.attList.size())
             display.setText((DB.attList.size() - counter) + "-" + DB.attList.get(counter++).name);
-        else toTheNext();
+        else finished();
     }
 
     public void notHereAction() {
@@ -51,7 +52,7 @@ public class NormalAttActivity extends Activity implements View.OnClickListener 
         displayNext();
     }
 
-    public void toTheNext() {
+    public void finished() {
         Intent i = new Intent(getApplicationContext(), ActionsActivity.class);
         startActivity(i);
     }
@@ -61,7 +62,7 @@ public class NormalAttActivity extends Activity implements View.OnClickListener 
         while (DB.attList.size() > counter) {
             DB.attList.remove(counter);
         }
-        toTheNext();
+        finished();
     }
 
     @Override
@@ -77,7 +78,7 @@ public class NormalAttActivity extends Activity implements View.OnClickListener 
                 stopAtt();
                 break;
             case R.id.bAll_NormalAtt:
-                toTheNext();
+                finished();
                 break;
         }
     }
@@ -86,7 +87,7 @@ public class NormalAttActivity extends Activity implements View.OnClickListener 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_normal_att, menu);
+        getMenuInflater().inflate(R.menu.menu_normal, menu);
         return true;
     }
 

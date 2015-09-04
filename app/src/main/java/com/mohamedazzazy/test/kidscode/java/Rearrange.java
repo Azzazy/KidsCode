@@ -44,7 +44,7 @@ public class Rearrange extends Service {
                         NotificationManager mNotificationManager =
                                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-                        int n = DB.arrangeDataBase(getApplicationContext());
+                        int n = DB.arrangeDataBase();
                         try {
                             Thread.sleep(1000);
                         } catch (Exception e) {

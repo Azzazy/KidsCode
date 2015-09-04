@@ -61,11 +61,22 @@
         android:text="Active"
         android:textSize="15sp"
         android:id="@+id/rbActive_KidInfo"
-        android:visibility="invisible"
         android:enabled="true"
+        android:visibility="invisible"
         android:layout_above="@+id/lvCoins_KidInfo"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="AgeGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvAgeGroup_KidInfo"
+        android:textSize="15sp"
+        android:visibility="invisible"
+        android:layout_above="@+id/tvMobile_KidInfo"
+        android:layout_alignLeft="@+id/rbActive_KidInfo"
+        android:layout_alignStart="@+id/rbActive_KidInfo" />
 
 
 </RelativeLayout>

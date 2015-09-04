@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="41dp"
         android:singleLine="false"
-        android:text="Statistics"
+        android:text="Show"
         android:textSize="30dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
