@@ -28,6 +28,7 @@ public class ShowCoinActivity extends AppCompatActivity {
         if (FROM_ACTIONS_ACTIVITY) {
             displayCoinsFromAtt();
         } else {
+            if(DB.fullList!=null)
             displayCoinsFromFull();
         }
     }

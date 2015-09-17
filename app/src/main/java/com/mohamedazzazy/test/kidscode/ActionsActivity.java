@@ -1,11 +1,7 @@
 package com.mohamedazzazy.test.kidscode;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,8 +9,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.mohamedazzazy.test.kidscode.java.DB;
-
-import java.util.prefs.Preferences;
 
 public class ActionsActivity extends AppCompatActivity implements View.OnClickListener {
 

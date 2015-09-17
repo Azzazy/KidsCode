@@ -1,6 +1,5 @@
 package com.mohamedazzazy.test.kidscode;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

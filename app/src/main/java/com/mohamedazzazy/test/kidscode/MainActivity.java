@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.bStat:
                 if (DB.fullList == null) {
-                    DB.readFullDBInService(this);
+                    if(!DB.readFullDBComplete(DB.EXACT))break;
                 }
                 next = new Intent(getApplicationContext(), ShowCoinActivity.class);
                 next.putExtra("From_Actions_Activity", false);

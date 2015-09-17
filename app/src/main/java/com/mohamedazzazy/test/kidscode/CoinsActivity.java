@@ -1,15 +1,12 @@
 package com.mohamedazzazy.test.kidscode;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.NumberPicker;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 

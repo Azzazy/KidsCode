@@ -1,7 +1,6 @@
 package com.mohamedazzazy.test.kidscode.java;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -43,10 +42,11 @@ public class DB extends Service {
     public static String EXTERNAL_FILE_PATH, PREFS_FILE = "ThePrefs";
     static String INTERNAL_FILE_NAME = "MainDB.txt", data, END_TIME_FIXED;
     static int DB_VERSION = 1, END_TIME;
-    public static int MAX_ID, ALL = 1, EXACT = 2,CALL_COUNTER;
+    public static int MAX_ID, ALL = 1, EXACT = 2, CALL_COUNTER;
     public static char AGE_CHAR;
     public static MainActivity mainActivity;
-public static boolean CALL_ACTIVE=true;
+    public static boolean CALL_ACTIVE = true;
+
     public static void rewriteFullDB() {
         if (NEED_REWRITE) {
             data = "";
@@ -59,14 +59,14 @@ public static boolean CALL_ACTIVE=true;
     }
 
     public static void addNewKidFromMain(Kid k) {
-        readFullDatabase(ALL);
+        readFullDBComplete(ALL);
         fullList.add(k);
         NEED_REWRITE = true;
         rewriteFullDB();
     }
 
     public static int arrangeDataBase() {
-        readFullDatabase(ALL);
+        readFullDBComplete(ALL);
         data = "";
         int n = fullList.size();
         addFullKidsToData();
@@ -82,16 +82,18 @@ public static boolean CALL_ACTIVE=true;
         Log.e("TEST_VALUES", "MAX_ID In : " + DB.MAX_ID);        //test
         editor.apply();
     }
+
     public static void updateCallCounter() {
         SharedPreferences.Editor editor = mainActivity.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE).edit();
         editor.putInt("call_count", DB.CALL_COUNTER);
         Log.e("TEST_VALUES", "CALL_COUNTER In : " + DB.CALL_COUNTER);        //test
         editor.apply();
     }
-public static void getCallCounter(){
-    CALL_COUNTER = mainActivity.getSharedPreferences(DB.PREFS_FILE, MODE_PRIVATE).getInt("call_count", 0);
 
-}
+    public static void getCallCounter() {
+        CALL_COUNTER = mainActivity.getSharedPreferences(DB.PREFS_FILE, MODE_PRIVATE).getInt("call_count", 0);
+
+    }
 
     public static void updateCallActive() {
         SharedPreferences.Editor editor = mainActivity.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE).edit();
@@ -99,10 +101,12 @@ public static void getCallCounter(){
         Log.e("TEST_VALUES", "CALL_ACTIVE In : " + DB.CALL_COUNTER);        //test
         editor.apply();
     }
-    public static void getCallActive(){
+
+    public static void getCallActive() {
         CALL_ACTIVE = mainActivity.getSharedPreferences(DB.PREFS_FILE, MODE_PRIVATE).getBoolean("call_active", true);
 
     }
+
     public static void appendDataAfterSession() {
 
         data = "";
@@ -146,6 +150,30 @@ public static void getCallCounter(){
     public static void readFullDBInService(Context a) {
         Intent theServiceTntent = new Intent(a, ReadFullDB.class);
         a.startService(theServiceTntent);
+    }
+    public static boolean readFullDBComplete(int MODE){
+        Toast.makeText(mainActivity, "Reading the DataBase", Toast.LENGTH_SHORT).show();
+
+        int mId = 7;
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(mainActivity)
+                        .setSmallIcon(R.mipmap.ic_launcher);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) mainActivity.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (!DB.readFullDatabase(MODE)) {
+            Toast.makeText(mainActivity, "No kids in the DataBase", Toast.LENGTH_LONG).show();
+            mBuilder.setContentTitle("Error!")
+                    .setContentText("Problem in reading the DataBase")
+                    .setOngoing(false)
+                    .setAutoCancel(true);
+            mNotificationManager.notify(mId, mBuilder.build());
+            return false;
+        }else{
+            Toast.makeText(mainActivity, "Done Reading", Toast.LENGTH_SHORT).show();
+            return true;
+        }
     }
 
     public static boolean readFullDatabase(int MODE) {
